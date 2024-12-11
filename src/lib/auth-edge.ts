@@ -42,17 +42,28 @@ export const nextAuthEdgeConfig = {
         return Response.redirect(new URL("/app/dashboard", request.nextUrl));
       }
 
-      //if logged in with no access and on login/signup screen, redirects to payment
+      //if logged in with no access and on login/signup screen, redirects to profile
       if (isLoggedIn && !isTryingToAccessApp && !auth?.user.hasAccess) {
         if (
           request.nextUrl.pathname.includes("/login") ||
           request.nextUrl.pathname.includes("/signup")
         ) {
-          return Response.redirect(new URL("/payment", request.nextUrl));
+          return Response.redirect(new URL("/profile", request.nextUrl));
         }
 
         return true;
       }
+
+      // //if logged in with no access and on login/signup screen, redirects to profile
+      // if (isLoggedIn && !isTryingToAccessApp && !auth?.user.hasAccess) {
+      //   if (
+      //     request.nextUrl.pathname.includes("/profile")
+      //   ) {
+      //     return Response.redirect(new URL("/payment", request.nextUrl));
+      //   }
+
+      //   return true;
+      // }
 
       //if not logged in and not trying to access app, user can do whatever
       if (!isLoggedIn && !isTryingToAccessApp) {
