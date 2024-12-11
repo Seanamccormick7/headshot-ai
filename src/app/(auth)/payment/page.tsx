@@ -41,13 +41,14 @@ export default function Page({
             });
           }}
         >
+          {/* TODO: change this price might just use differnt stripe type (not a seperate page) */}
           Buy lifetime access for $299
         </Button>
       )}
 
       {searchParams.success && (
         <p className="text-sm text-green-700">
-          Payment successful! You now have lifetime access to PetSoft.
+          Payment successful! You now have lifetime access to Headshot-ai.
         </p>
       )}
       {searchParams.cancelled && (

@@ -3,6 +3,7 @@ import prisma from "@/lib/db";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request: Request) {
+  console.log("Webhook received");
   const body = await request.text();
   const signature = request.headers.get("stripe-signature");
 

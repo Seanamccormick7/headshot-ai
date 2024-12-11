@@ -4,8 +4,9 @@ import Link from "next/link";
 
 export default function Logo() {
   return (
+    //TODO: Replace with your own logo
     <Link href="/">
-      <Image src={logo} alt="PetSoft logo" />
+      <Image src={logo} alt="Headshot-ai logo" />
     </Link>
   );
 }
