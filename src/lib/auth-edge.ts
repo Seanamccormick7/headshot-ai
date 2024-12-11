@@ -10,19 +10,29 @@ export const nextAuthEdgeConfig = {
       // runs on every request with middleware
       const isLoggedIn = Boolean(auth?.user);
       const isTryingToAccessApp = request.nextUrl.pathname.includes("/app");
+      const isTryingToAccessProfile =
+        request.nextUrl.pathname.includes("/profile");
 
-      if (!isLoggedIn && isTryingToAccessApp) {
+      //user has to log in before accessing app/profile
+      if (!isLoggedIn && (isTryingToAccessApp || isTryingToAccessProfile)) {
         return false;
       }
 
+      // user can access profile if logged in
+      if (isLoggedIn && isTryingToAccessProfile) {
+        return true;
+      }
+
+      // user can access app if has access, redirects to payment otherwise
       if (isLoggedIn && isTryingToAccessApp && !auth?.user.hasAccess) {
         return Response.redirect(new URL("/payment", request.nextUrl));
       }
-
       if (isLoggedIn && isTryingToAccessApp && auth?.user.hasAccess) {
         return true;
       }
 
+      //if user is already logged in and has access and is on a login/signup screen, redirects to dashboard
+      //TODO: need to also check if user has profile details before redirecting, otherwise just redirect to profile
       if (
         isLoggedIn &&
         (request.nextUrl.pathname.includes("/login") ||
@@ -32,6 +42,7 @@ export const nextAuthEdgeConfig = {
         return Response.redirect(new URL("/app/dashboard", request.nextUrl));
       }
 
+      //if logged in with no access and on login/signup screen, redirects to payment
       if (isLoggedIn && !isTryingToAccessApp && !auth?.user.hasAccess) {
         if (
           request.nextUrl.pathname.includes("/login") ||
@@ -43,6 +54,7 @@ export const nextAuthEdgeConfig = {
         return true;
       }
 
+      //if not logged in and not trying to access app, user can do whatever
       if (!isLoggedIn && !isTryingToAccessApp) {
         return true;
       }
