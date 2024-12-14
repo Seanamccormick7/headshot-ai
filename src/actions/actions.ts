@@ -102,10 +102,7 @@ export async function logOut() {
 export async function updateProfile(ProfileFormData: unknown, step: number) {
   const session = await checkAuth();
 
-  console.log(ProfileFormData);
-  console.log(session.user);
-
-  // validate the data against our user update schema
+  //validate the data against our user update schema
   const validatedFormData = userProfileSchema.safeParse(ProfileFormData);
   if (!validatedFormData.success) {
     console.log("Validation failed:", validatedFormData.error);
@@ -114,25 +111,70 @@ export async function updateProfile(ProfileFormData: unknown, step: number) {
     };
   }
 
-  //not creating, am editing already created user
-  const {} = validatedFormData.data;
-  try {
-    await prisma.user.update({
-      where: { id: session.user.id },
-      data:
-        //need to add to data depending on which step was created
-        validatedFormData.data,
-    });
-    console.log("User profile updated successfully.");
-    return { message: "User profile updated successfully." };
-  } catch (error: any) {
-    console.error(error);
-    console.log("thre was an error");
-    return {
-      message: "Could not edit user profile.",
-      error: error.message,
-    };
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+  });
+  if (!user) {
+    return { message: "User not found." };
   }
+
+  // Extract validated data
+  const newData = validatedFormData.data; // This is a partial object from your Zod schema
+  const updates: Record<string, unknown> = {};
+
+  // Compare field by field
+  for (const [key, value] of Object.entries(newData)) {
+    // @ts-expect-error since user is typed, you might need to cast or ensure keys match your schema
+    if (value !== user[key]) {
+      updates[key] = value;
+    }
+  }
+
+  if (Object.keys(updates).length === 0) {
+    return { message: "No changes made." };
+  }
+
+  // Update only changed fields
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: updates,
+  });
+
+  return { message: "User profile updated successfully." };
+
+  // const session = await checkAuth();
+
+  // console.log(ProfileFormData);
+  // console.log(session.user);
+
+  // // validate the data against our user update schema
+  // const validatedFormData = userProfileSchema.safeParse(ProfileFormData);
+  // if (!validatedFormData.success) {
+  //   console.log("Validation failed:", validatedFormData.error);
+  //   return {
+  //     message: "Invalid profile data.",
+  //   };
+  // }
+
+  // //not creating, am editing already created user
+  // const {} = validatedFormData.data;
+  // try {
+  //   await prisma.user.update({
+  //     where: { id: session.user.id },
+  //     data:
+  //       //need to add to data depending on which step was created
+  //       validatedFormData.data,
+  //   });
+  //   console.log("User profile updated successfully.");
+  //   return { message: "User profile updated successfully." };
+  // } catch (error: any) {
+  //   console.error(error);
+  //   console.log("thre was an error");
+  //   return {
+  //     message: "Could not edit user profile.",
+  //     error: error.message,
+  //   };
+  // }
 }
 
 // --- pet actions ---
