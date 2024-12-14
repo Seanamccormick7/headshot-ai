@@ -4,42 +4,42 @@ import { Input } from "../ui/input";
 import { TUserProfile } from "@/lib/validations";
 import { updateProfile } from "@/actions/actions";
 
-export default function EthnicityStep({
+export default function UploadImageStep({
   formData,
   handleChange,
   prevStep,
-  nextStep,
+  handleSubmit,
 }: {
   formData: TUserProfile;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   prevStep: () => void;
-  nextStep: () => void;
+  handleSubmit: (e: React.FormEvent) => void;
 }) {
   return (
     <form action={updateProfile}>
       <div>
-        <Label htmlFor="ethnicity">Ethnicity</Label>
+        <Label htmlFor="images">Images</Label>
         <Input
-          id="ethnicity"
-          name="ethnicity"
-          value={formData.ethnicity}
+          id="images"
+          name="images"
+          value={formData.attire}
           onChange={handleChange}
           required
         />
       </div>
       <div>
-        <Label htmlFor="bodyType">Body Type</Label>
+        <Label htmlFor="backgrounds">Backgrounds</Label>
         <Input
-          id="bodyType"
-          name="bodyType"
-          value={formData.bodyType}
+          id="backgrounds"
+          name="backgrounds"
+          value={formData.backgrounds}
           onChange={handleChange}
           required
         />
       </div>
       <Button onClick={prevStep}>Previous</Button>
-      <Button type="submit" onClick={nextStep}>
-        Next
+      <Button type="submit" onClick={handleSubmit}>
+        Submit
       </Button>
     </form>
   );

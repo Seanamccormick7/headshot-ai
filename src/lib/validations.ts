@@ -12,7 +12,7 @@ export const userProfileSchema = z.object({
   bodyType: z.string().trim().max(100).optional(),
   attire: z.string().trim().max(100).optional(),
   backgrounds: z.string().trim().max(1000).optional(),
-  glasses: z.boolean().optional(),
+  glasses: z.preprocess((val) => val === "on", z.boolean()).optional(),
   images: z
     .union([z.literal(""), z.string().url().array()])
     .transform((val) => {

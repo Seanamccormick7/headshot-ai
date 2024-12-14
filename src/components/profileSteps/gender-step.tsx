@@ -14,7 +14,7 @@ export default function GenderStep({
   nextStep: () => void;
 }) {
   return (
-    <form action={() => updateProfile(formData, 1)}>
+    <form action={updateProfile}>
       <div>
         <Label htmlFor="gender">Gender</Label>
         <Input

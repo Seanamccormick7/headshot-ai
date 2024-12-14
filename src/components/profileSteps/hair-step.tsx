@@ -16,7 +16,7 @@ export default function HairStep({
   nextStep: () => void;
 }) {
   return (
-    <form action={() => updateProfile(formData, 2)}>
+    <form action={updateProfile}>
       <div>
         <Label htmlFor="hairColor">Hair Color</Label>
         <Input

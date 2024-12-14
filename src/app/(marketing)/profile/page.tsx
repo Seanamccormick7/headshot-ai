@@ -64,7 +64,7 @@ export default function Profile() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    //check there are no null fields in
     // TODO: go to payment page when button clicked
   };
 
@@ -104,6 +104,7 @@ export default function Profile() {
           handleSubmit={handleSubmit}
         />
       )}
+      {/* TODO: Add image step, and pass handleSubmit to this component instead */}
     </main>
   );
 }

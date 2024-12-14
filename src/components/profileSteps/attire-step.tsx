@@ -16,7 +16,7 @@ export default function AttireStep({
   handleSubmit: (e: React.FormEvent) => void;
 }) {
   return (
-    <form action={() => updateProfile(formData, 4)}>
+    <form action={updateProfile}>
       <div>
         <Label htmlFor="attire">Attire</Label>
         <Input
