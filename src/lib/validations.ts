@@ -44,6 +44,8 @@ export const userProfileSchema = z.object({
   hasDetails: z.boolean().optional(),
 });
 
+export type TUserProfile = z.infer<typeof userProfileSchema>;
+
 export const petFormSchema = z
   .object({
     name: z.string().trim().min(1, { message: "Name is required" }).max(100),
@@ -65,7 +67,6 @@ export const petFormSchema = z
   }));
 
 export type TPetForm = z.infer<typeof petFormSchema>;
-export type TUserProfile = z.infer<typeof userProfileSchema>;
 
 export const authSchema = z.object({
   email: z.string().email().max(100),

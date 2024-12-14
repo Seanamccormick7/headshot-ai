@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { TUserProfile } from "@/lib/validations";
+import { updateProfile } from "@/actions/actions";
 
 export default function AttireStep({
   formData,
@@ -15,7 +16,7 @@ export default function AttireStep({
   handleSubmit: (e: React.FormEvent) => void;
 }) {
   return (
-    <div>
+    <form action={() => updateProfile(formData, 4)}>
       <div>
         <Label htmlFor="attire">Attire</Label>
         <Input
@@ -49,6 +50,6 @@ export default function AttireStep({
       </div>
       <Button onClick={prevStep}>Previous</Button>
       <Button onClick={handleSubmit}>Submit</Button>
-    </div>
+    </form>
   );
 }

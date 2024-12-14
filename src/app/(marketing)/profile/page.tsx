@@ -55,6 +55,7 @@ export default function Profile() {
   const nextStep = () => {
     const next = currentStep + 1;
     router.push(`/profile?step=${next}`);
+    //TODO: need to add validation here as well
   };
 
   const prevStep = () => {
@@ -64,7 +65,7 @@ export default function Profile() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // dont worry about for now
+    // TODO: go to payment page when button clicked
   };
 
   return (

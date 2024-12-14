@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { TUserProfile } from "@/lib/validations";
+import { updateProfile } from "@/actions/actions";
 
 export default function HairStep({
   formData,
@@ -15,7 +16,7 @@ export default function HairStep({
   nextStep: () => void;
 }) {
   return (
-    <div>
+    <form action={() => updateProfile(formData, 2)}>
       <div>
         <Label htmlFor="hairColor">Hair Color</Label>
         <Input
@@ -38,6 +39,6 @@ export default function HairStep({
       </div>
       <Button onClick={prevStep}>Previous</Button>
       <Button onClick={nextStep}>Next</Button>
-    </div>
+    </form>
   );
 }

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { TUserProfile } from "@/lib/validations";
+import { updateProfile } from "@/actions/actions";
 
 export default function EthnicityStep({
   formData,
@@ -15,7 +16,7 @@ export default function EthnicityStep({
   nextStep: () => void;
 }) {
   return (
-    <div>
+    <form action={() => updateProfile(formData, 3)}>
       <div>
         <Label htmlFor="ethnicity">Ethnicity</Label>
         <Input
@@ -38,6 +39,6 @@ export default function EthnicityStep({
       </div>
       <Button onClick={prevStep}>Previous</Button>
       <Button onClick={nextStep}>Next</Button>
-    </div>
+    </form>
   );
 }

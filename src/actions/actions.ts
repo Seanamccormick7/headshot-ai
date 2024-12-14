@@ -119,11 +119,9 @@ export async function updateProfile(ProfileFormData: unknown, step: number) {
   try {
     await prisma.user.update({
       where: { id: session.user.id },
-      data: {
+      data:
         //need to add to data depending on which step was created
-        hasDetails: true,
-        gender: validatedFormData.data.gender,
-      },
+        validatedFormData.data,
     });
     console.log("User profile updated successfully.");
     return { message: "User profile updated successfully." };
