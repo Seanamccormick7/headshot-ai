@@ -49,7 +49,9 @@ export default function AttireStep({
         />
       </div>
       <Button onClick={prevStep}>Previous</Button>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button type="submit" onClick={handleSubmit}>
+        Submit
+      </Button>
     </form>
   );
 }

@@ -38,7 +38,9 @@ export default function EthnicityStep({
         />
       </div>
       <Button onClick={prevStep}>Previous</Button>
-      <Button onClick={nextStep}>Next</Button>
+      <Button type="submit" onClick={nextStep}>
+        Next
+      </Button>
     </form>
   );
 }
