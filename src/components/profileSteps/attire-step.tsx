@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
-import { ProfileFormDataT } from "@/lib/types";
+import { TUserProfile } from "@/lib/validations";
 
 export default function AttireStep({
   formData,
@@ -9,7 +9,7 @@ export default function AttireStep({
   prevStep,
   handleSubmit,
 }: {
-  formData: ProfileFormDataT;
+  formData: TUserProfile;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   prevStep: () => void;
   handleSubmit: (e: React.FormEvent) => void;
@@ -41,7 +41,8 @@ export default function AttireStep({
         <Input
           id="glasses"
           name="glasses"
-          value={formData.glasses}
+          type="checkbox"
+          checked={formData.glasses}
           onChange={handleChange}
           required
         />

@@ -2,7 +2,12 @@
 
 import { auth, signIn, signOut } from "@/lib/auth-no-edge";
 import prisma from "@/lib/db";
-import { authSchema, petFormSchema, petIdSchema } from "@/lib/validations";
+import {
+  authSchema,
+  petFormSchema,
+  petIdSchema,
+  userProfileSchema,
+} from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
@@ -90,6 +95,46 @@ export async function signUp(prevState: unknown, formData: unknown) {
 
 export async function logOut() {
   await signOut({ redirectTo: "/" });
+}
+
+// -- profile actions
+
+export async function updateProfile(ProfileFormData: unknown, step: number) {
+  const session = await checkAuth();
+
+  console.log(ProfileFormData);
+  console.log(session.user);
+
+  // validate the data against our user update schema
+  const validatedFormData = userProfileSchema.safeParse(ProfileFormData);
+  if (!validatedFormData.success) {
+    console.log("Validation failed:", validatedFormData.error);
+    return {
+      message: "Invalid profile data.",
+    };
+  }
+
+  //not creating, am editing already created user
+  const {} = validatedFormData.data;
+  try {
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: {
+        //need to add to data depending on which step was created
+        hasDetails: true,
+        gender: validatedFormData.data.gender,
+      },
+    });
+    console.log("User profile updated successfully.");
+    return { message: "User profile updated successfully." };
+  } catch (error: any) {
+    console.error(error);
+    console.log("thre was an error");
+    return {
+      message: "Could not edit user profile.",
+      error: error.message,
+    };
+  }
 }
 
 // --- pet actions ---

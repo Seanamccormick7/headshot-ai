@@ -1,3 +1,4 @@
+//NextAuthConfig is a type
 import { NextAuthConfig } from "next-auth";
 import prisma from "./db";
 
@@ -94,6 +95,7 @@ export const nextAuthEdgeConfig = {
 
       return token;
     },
+    //when user logs in, they dont have to log in again to access something
     session: ({ session, token }) => {
       session.user.id = token.userId;
       session.user.hasAccess = token.hasAccess;
@@ -101,5 +103,9 @@ export const nextAuthEdgeConfig = {
       return session;
     },
   },
+
+  //providers is where you can add different types of login methods
   providers: [],
+
+  //satisfies is another way of specifying types
 } satisfies NextAuthConfig;

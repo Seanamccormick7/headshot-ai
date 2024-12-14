@@ -9,6 +9,17 @@ declare module "next-auth" {
   interface Session {
     user: User & {
       id: string;
+      // gender?: string;
+      // age?: number;
+      // hairColor?: string;
+      // hairLength?: string;
+      // ethnicity?: string;
+      // bodyType?: string;
+      // attire?: string;
+      // backgrounds?: string;
+      // glasses?: boolean;
+      // images?: string[];
+      // hasDetails?: boolean;
     };
   }
 }

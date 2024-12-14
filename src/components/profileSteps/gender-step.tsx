@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
-import { ProfileFormDataT } from "@/lib/types";
+import { updateProfile } from "@/actions/actions";
+import { TUserProfile } from "@/lib/validations";
 
 export default function GenderStep({
   formData,
   handleChange,
   nextStep,
 }: {
-  formData: ProfileFormDataT;
+  formData: TUserProfile;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   nextStep: () => void;
 }) {
   return (
-    <div>
+    <form action={() => updateProfile(formData, 1)}>
       <div>
         <Label htmlFor="gender">Gender</Label>
         <Input
@@ -35,7 +36,9 @@ export default function GenderStep({
           required
         />
       </div>
-      <Button onClick={nextStep}>Next</Button>
-    </div>
+      <Button type="submit" onClick={nextStep}>
+        Next
+      </Button>
+    </form>
   );
 }

@@ -18,6 +18,17 @@ model User {
   pets           Pet[]
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
+  gender         String?
+  age            Int?
+  hairColor      String?
+  hairLength     String?
+  ethnicity      String?
+  bodyType       String?
+  attire         String?
+  backgrounds    String?
+  glasses        Boolean?
+  images         String[] // Assuming you store image URLs or paths as an array of strings
+  hasDetails     Boolean  @default(false)
 }
 
 model Pet {

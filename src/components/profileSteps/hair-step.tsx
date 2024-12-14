@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
-import { ProfileFormDataT } from "@/lib/types";
+import { TUserProfile } from "@/lib/validations";
 
 export default function HairStep({
   formData,
@@ -9,7 +9,7 @@ export default function HairStep({
   prevStep,
   nextStep,
 }: {
-  formData: ProfileFormDataT;
+  formData: TUserProfile;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   prevStep: () => void;
   nextStep: () => void;

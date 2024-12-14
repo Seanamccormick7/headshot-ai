@@ -7,7 +7,7 @@ import GenderStep from "@/components/profileSteps/gender-step";
 import HairStep from "@/components/profileSteps/hair-step";
 import EthnicityStep from "@/components/profileSteps/ethnicity-step";
 import AttireStep from "@/components/profileSteps/attire-step";
-import { ProfileFormDataT } from "@/lib/types";
+import { TUserProfile } from "@/lib/validations";
 
 export default function Profile() {
   const { data: session, status } = useSession();
@@ -15,16 +15,19 @@ export default function Profile() {
   const searchParams = useSearchParams();
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<ProfileFormDataT>({
-    gender: "",
-    age: "",
+
+  //lifted up controlled state for all form fields. By default set them all to empty strings
+  //need to by default set them to
+  const [formData, setFormData] = useState<TUserProfile>({
+    gender: "", //change to current users gender value (how to access current user)
+    age: undefined,
     hairColor: "",
     hairLength: "",
     ethnicity: "",
     bodyType: "",
     attire: "",
     backgrounds: "",
-    glasses: "",
+    glasses: undefined,
   });
 
   useEffect(() => {
@@ -41,8 +44,12 @@ export default function Profile() {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    const { name, type, checked, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const nextStep = () => {
@@ -57,8 +64,7 @@ export default function Profile() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
+    // dont worry about for now
   };
 
   return (
