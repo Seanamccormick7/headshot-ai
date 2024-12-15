@@ -42,7 +42,7 @@ export default function Page({
           }}
         >
           {/* TODO: change this price might just use differnt stripe type (not a seperate page) */}
-          Buy lifetime access for $299
+          Buy lifetime access for $29.99
         </Button>
       )}
 

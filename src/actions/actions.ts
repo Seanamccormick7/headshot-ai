@@ -174,8 +174,11 @@ export async function updateProfile(ProfileFormData: unknown) {
 
     return { message: "User profile updated successfully." };
   } catch (error: any) {
+    if (error && error.digest && error.digest.startsWith("NEXT_REDIRECT")) {
+      // Re-throw the NEXT_REDIRECT error so Next.js can handle the redirect
+      throw error;
+    }
     console.error(error);
-    console.log("There was an error");
     return { message: "Could not edit user profile.", error: error.message };
   }
 }
