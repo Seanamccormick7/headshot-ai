@@ -8,6 +8,7 @@ import HairStep from "@/components/profileSteps/hair-step";
 import EthnicityStep from "@/components/profileSteps/ethnicity-step";
 import AttireStep from "@/components/profileSteps/attire-step";
 import { TUserProfile } from "@/lib/validations";
+import UploadImageStep from "@/components/profileSteps/upload-img-step";
 
 export default function Profile() {
   const { data: session, status } = useSession();
@@ -66,7 +67,7 @@ export default function Profile() {
   return (
     <main className="flex flex-col items-center space-y-10">
       <H1>Profile Page</H1>
-      <p>Welcome, {session.user.name}</p>
+      <p>Welcome, {session.user.email}</p>
 
       {currentStep === 1 && (
         <GenderStep
@@ -96,9 +97,16 @@ export default function Profile() {
           formData={formData}
           handleChange={handleChange}
           prevStep={prevStep}
+          nextStep={nextStep}
         />
       )}
-      {/* TODO: Add image step, and pass handleSubmit to this component instead */}
+      {currentStep === 5 && (
+        <UploadImageStep
+          formData={formData}
+          handleChange={handleChange}
+          prevStep={prevStep}
+        />
+      )}
     </main>
   );
 }

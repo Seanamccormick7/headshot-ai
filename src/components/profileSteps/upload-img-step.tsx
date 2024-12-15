@@ -1,46 +1,36 @@
 import { Button } from "@/components/ui/button";
-import { Label } from "@radix-ui/react-label";
-import { Input } from "../ui/input";
 import { TUserProfile } from "@/lib/validations";
 import { updateProfile } from "@/actions/actions";
+import { useState } from "react";
+
+import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
+import "@uploadcare/react-uploader/core.css";
 
 export default function UploadImageStep({
   formData,
   handleChange,
   prevStep,
-  handleSubmit,
 }: {
   formData: TUserProfile;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   prevStep: () => void;
-  handleSubmit: (e: React.FormEvent) => void;
 }) {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   return (
     <form action={updateProfile}>
+      <input type="hidden" name="step" value="5" />
       <div>
-        <Label htmlFor="images">Images</Label>
-        <Input
-          id="images"
-          name="images"
-          value={formData.attire}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <Label htmlFor="backgrounds">Backgrounds</Label>
-        <Input
-          id="backgrounds"
-          name="backgrounds"
-          value={formData.backgrounds}
-          onChange={handleChange}
-          required
+        <FileUploaderRegular
+          sourceList="local, url, camera, dropbox, gdrive"
+          classNameUploader="uc-light"
+          pubkey="287d16f78a4a39098943"
         />
       </div>
       <Button onClick={prevStep}>Previous</Button>
-      <Button type="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
+      {/* TODO: On submit, I need to add thumbnail images (can easily be created on the website)
+      to the user images in the db. This way I can know if the user has already entered images or not.
+      Might also have to do signed urls */}
+      <Button type="submit">Submit</Button>
     </form>
   );
 }

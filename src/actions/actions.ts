@@ -131,8 +131,8 @@ export async function updateProfile(ProfileFormData: unknown) {
     });
     console.log("User profile updated successfully.");
 
-    // If this is the final step (e.g., step === "4"), check if all fields are filled
-    if (step === 4) {
+    // If this is the final step (e.g., step === 5), check if all fields are filled
+    if (step === 5) {
       const updatedUser = await prisma.user.findUnique({
         where: { id: session.user.id },
       });
