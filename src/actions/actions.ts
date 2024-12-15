@@ -120,21 +120,64 @@ export async function updateProfile(ProfileFormData: unknown) {
   }
 
   console.log("Data to update:", validatedFormData.data);
+  // Determine the step (assuming you passed a hidden input "step" in the form)
+  const step = validatedFormData.data.step;
+  delete validatedFormData.data.step; // remove step since it's not a field in the User model
+
   try {
     await prisma.user.update({
       where: { id: session.user.id },
-      data: validatedFormData.data,
+      data: validatedFormData.data, // update the fields from this step
     });
     console.log("User profile updated successfully.");
+
+    // If this is the final step (e.g., step === "4"), check if all fields are filled
+    if (step === 4) {
+      const updatedUser = await prisma.user.findUnique({
+        where: { id: session.user.id },
+      });
+
+      if (!updatedUser) {
+        return { message: "User not found." };
+      }
+
+      // Check if all required fields are filled
+      // Adjust the fields as per your requirements
+      const requiredFields = [
+        updatedUser.gender,
+        updatedUser.age,
+        updatedUser.hairColor,
+        updatedUser.hairLength,
+        updatedUser.ethnicity,
+        updatedUser.bodyType,
+        updatedUser.attire,
+        updatedUser.backgrounds,
+        // glasses is boolean, just ensure it's not null
+        updatedUser.glasses,
+      ];
+
+      const allFieldsFilled = requiredFields.every(
+        (field) => field !== null && field !== ""
+      );
+
+      if (allFieldsFilled) {
+        // Update hasDetails to true
+        await prisma.user.update({
+          where: { id: session.user.id },
+          data: { hasDetails: true },
+        });
+
+        // Redirect to payment
+        redirect("/payment");
+      }
+    }
+
+    return { message: "User profile updated successfully." };
   } catch (error: any) {
     console.error(error);
-    console.log("thre was an error");
-    return {
-      message: "Could not edit user profile.",
-      error: error.message,
-    };
+    console.log("There was an error");
+    return { message: "Could not edit user profile.", error: error.message };
   }
-  return { message: "User profile updated successfully." };
 }
 
 // --- pet actions ---

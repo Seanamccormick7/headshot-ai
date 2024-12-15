@@ -15,6 +15,7 @@ export default function GenderStep({
 }) {
   return (
     <form action={updateProfile}>
+      <input type="hidden" name="step" value="1" />
       <div>
         <Label htmlFor="gender">Gender</Label>
         <Input

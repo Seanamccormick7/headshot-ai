@@ -17,6 +17,7 @@ export default function HairStep({
 }) {
   return (
     <form action={updateProfile}>
+      <input type="hidden" name="step" value="2" />
       <div>
         <Label htmlFor="hairColor">Hair Color</Label>
         <Input

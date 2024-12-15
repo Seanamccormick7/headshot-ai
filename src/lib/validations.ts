@@ -12,7 +12,11 @@ export const userProfileSchema = z.object({
   bodyType: z.string().trim().max(100).optional(),
   attire: z.string().trim().max(100).optional(),
   backgrounds: z.string().trim().max(1000).optional(),
-  glasses: z.preprocess((val) => val === "on", z.boolean()).optional(),
+  glasses: z.preprocess((val) => {
+    // If the checkbox is checked, the form sends "on"
+    // If not checked, the field won't be present, and val will be undefined
+    return val === "on";
+  }, z.boolean().default(false)),
   images: z
     .union([z.literal(""), z.string().url().array()])
     .transform((val) => {
@@ -42,6 +46,7 @@ export const userProfileSchema = z.object({
     })
     .optional(),
   hasDetails: z.boolean().optional(),
+  step: z.coerce.number().int().positive().optional(), //not in db, used by updateProfile server action
 });
 
 export type TUserProfile = z.infer<typeof userProfileSchema>;

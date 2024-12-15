@@ -17,6 +17,7 @@ export default function EthnicityStep({
 }) {
   return (
     <form action={updateProfile}>
+      <input type="hidden" name="step" value="3" />
       <div>
         <Label htmlFor="ethnicity">Ethnicity</Label>
         <Input

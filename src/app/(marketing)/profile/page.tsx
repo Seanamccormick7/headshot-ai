@@ -27,7 +27,7 @@ export default function Profile() {
     bodyType: "",
     attire: "",
     backgrounds: "",
-    glasses: undefined,
+    glasses: false,
   });
 
   useEffect(() => {
@@ -64,8 +64,7 @@ export default function Profile() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    //check there are no null fields in
-    // TODO: go to payment page when button clicked
+    //check there are no null fields in the user, specifically the ones defined in the
   };
 
   return (

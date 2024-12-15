@@ -17,6 +17,7 @@ export default function AttireStep({
 }) {
   return (
     <form action={updateProfile}>
+      <input type="hidden" name="step" value="4" />
       <div>
         <Label htmlFor="attire">Attire</Label>
         <Input
@@ -45,13 +46,10 @@ export default function AttireStep({
           type="checkbox"
           checked={formData.glasses}
           onChange={handleChange}
-          required
         />
       </div>
       <Button onClick={prevStep}>Previous</Button>
-      <Button type="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 }
