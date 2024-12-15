@@ -17,34 +17,7 @@ export const userProfileSchema = z.object({
     // If not checked, the field won't be present, and val will be undefined
     return val === "on";
   }, z.boolean().default(false)),
-  images: z
-    .union([z.literal(""), z.string().url().array()])
-    .transform((val) => {
-      // If the form data might send a single image URL or multiple images,
-      // you might need to handle that scenario. For simplicity, let's assume
-      // the input is either an empty string or a JSON string of URLs.
-      if (typeof val === "string" && val.trim() === "") {
-        return [];
-      }
-
-      if (typeof val === "string") {
-        try {
-          const parsed = JSON.parse(val);
-          if (
-            Array.isArray(parsed) &&
-            parsed.every((item) => typeof item === "string")
-          ) {
-            return parsed;
-          }
-          return [];
-        } catch {
-          return [];
-        }
-      }
-
-      return val; // If already an array of strings
-    })
-    .optional(),
+  images: z.array(z.string()).optional(),
   hasDetails: z.boolean().optional(),
   step: z.coerce.number().int().positive().optional(), //not in db, used by updateProfile server action
 });

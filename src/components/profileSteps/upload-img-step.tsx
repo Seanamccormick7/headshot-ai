@@ -15,22 +15,50 @@ export default function UploadImageStep({
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   prevStep: () => void;
 }) {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [imageUuids, setImageUuids] = useState<string[]>([]);
+  console.log(imageUuids);
   return (
-    <form action={updateProfile}>
-      <input type="hidden" name="step" value="5" />
+    <>
       <div>
         <FileUploaderRegular
           sourceList="local, url, camera, dropbox, gdrive"
           classNameUploader="uc-light"
           pubkey="287d16f78a4a39098943"
+          onChange={(outputState) => {
+            // Extract successful file entries
+            const uploadedFiles = outputState.successEntries;
+            // Map over each file to get the uuid
+            const uuids = uploadedFiles.map((file) => file.uuid);
+            setImageUuids(uuids);
+          }}
         />
       </div>
-      <Button onClick={prevStep}>Previous</Button>
-      {/* TODO: On submit, I need to add thumbnail images (can easily be created on the website)
-      to the user images in the db. This way I can know if the user has already entered images or not.
-      Might also have to do signed urls */}
-      <Button type="submit">Submit</Button>
-    </form>
+
+      <form action={updateProfile}>
+        <input type="hidden" name="step" value="5" />
+
+        {imageUuids.map((uuid, index) => (
+          <input type="hidden" name="images[]" value={uuid} key={index} />
+        ))}
+
+        <Button onClick={prevStep}>Previous</Button>
+        <Button type="submit">Submit</Button>
+      </form>
+
+      {/* Displaying images */}
+      {imageUuids.length > 0 && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Uploaded Images:</h3>
+          {imageUuids.map((uuid, index) => (
+            <img
+              key={index}
+              src={`https://ucarecdn.com/${uuid}/`}
+              alt={`Uploaded ${index}`}
+              style={{ maxWidth: "200px" }}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 }

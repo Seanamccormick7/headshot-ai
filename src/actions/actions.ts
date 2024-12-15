@@ -100,18 +100,26 @@ export async function logOut() {
 // -- profile actions
 
 export async function updateProfile(ProfileFormData: unknown) {
+  //access user
   const session = await checkAuth();
 
+  //type check
   if (!(ProfileFormData instanceof FormData)) {
     console.log("Not a FormData instance");
     return { message: "Invalid form data." };
   }
 
-  // Convert FormData to a regular object
+  // Get all images first seperately because .entries() only gives one value per field name
+  const imageUuids = ProfileFormData.getAll("images[]") as string[];
+
+  // Now convert FormData to a regular object
   const formDataObj = Object.fromEntries(ProfileFormData.entries());
 
   //validate the data against our user update schema
-  const validatedFormData = userProfileSchema.safeParse(formDataObj);
+  const validatedFormData = userProfileSchema.safeParse({
+    ...formDataObj,
+    images: imageUuids,
+  });
   if (!validatedFormData.success) {
     console.log("Validation failed:", validatedFormData.error);
     return {
@@ -127,7 +135,10 @@ export async function updateProfile(ProfileFormData: unknown) {
   try {
     await prisma.user.update({
       where: { id: session.user.id },
-      data: validatedFormData.data, // update the fields from this step
+      data: {
+        ...validatedFormData.data,
+        images: validatedFormData.data.images,
+      },
     });
     console.log("User profile updated successfully.");
 
