@@ -17,9 +17,9 @@ export default function Profile() {
   const [currentStep, setCurrentStep] = useState(1);
 
   //lifted up controlled state for all form fields. By default set them all to empty strings
-  //need to by default set them to
+  //TODO: need to by default set them to current users values (not necessary)
   const [formData, setFormData] = useState<TUserProfile>({
-    gender: "", //change to current users gender value (how to access current user)
+    gender: "",
     age: undefined,
     hairColor: "",
     hairLength: "",
@@ -55,16 +55,12 @@ export default function Profile() {
   const nextStep = () => {
     const next = currentStep + 1;
     router.push(`/profile?step=${next}`);
-    //TODO: need to add validation here as well
+    //TODO: need to add validation here as well (already have zod schema, might want to use)
   };
 
   const prevStep = () => {
     const prev = currentStep - 1;
     router.push(`/profile?step=${prev}`);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    //check there are no null fields in the user, specifically the ones defined in the
   };
 
   return (
@@ -100,7 +96,6 @@ export default function Profile() {
           formData={formData}
           handleChange={handleChange}
           prevStep={prevStep}
-          handleSubmit={handleSubmit}
         />
       )}
       {/* TODO: Add image step, and pass handleSubmit to this component instead */}

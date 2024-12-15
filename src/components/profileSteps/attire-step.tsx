@@ -8,12 +8,10 @@ export default function AttireStep({
   formData,
   handleChange,
   prevStep,
-  handleSubmit,
 }: {
   formData: TUserProfile;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   prevStep: () => void;
-  handleSubmit: (e: React.FormEvent) => void;
 }) {
   return (
     <form action={updateProfile}>
