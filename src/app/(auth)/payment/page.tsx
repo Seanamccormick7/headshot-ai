@@ -24,7 +24,7 @@ export default function Page({
         <Button
           onClick={async () => {
             await update(true);
-            router.push("/app/dashboard");
+            router.push("/app/dashboard/gallery");
           }}
           disabled={status === "loading" || session?.user.hasAccess}
         >

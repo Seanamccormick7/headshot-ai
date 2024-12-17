@@ -40,7 +40,9 @@ export const nextAuthEdgeConfig = {
           request.nextUrl.pathname.includes("/signup")) &&
         auth?.user.hasAccess
       ) {
-        return Response.redirect(new URL("/app/dashboard", request.nextUrl));
+        return Response.redirect(
+          new URL("/app/dashboard/gallery", request.nextUrl)
+        );
       }
 
       //if logged in with no access and on login/signup screen, redirects to profile
