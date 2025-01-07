@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import HomeFooter from "@/components/homePage/home-footer";
-import Navbar from "@/components/homePage/navBar";
+import Navbar from "@/components/homePage/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -18,7 +18,7 @@ export default function Page({
 
   return (
     <main className="flex flex-col items-center space-y-10">
-      <H1>PetSoft access requires payment</H1>
+      <H1>Headshot AI access requires payment</H1>
 
       {searchParams.success && (
         <Button
@@ -28,7 +28,7 @@ export default function Page({
           }}
           disabled={status === "loading" || session?.user.hasAccess}
         >
-          Access PetSoft
+          Access Headshot AI
         </Button>
       )}
 
@@ -42,7 +42,7 @@ export default function Page({
           }}
         >
           {/* TODO: change this price might just use differnt stripe type (not a seperate page) */}
-          Buy lifetime access for $29.99
+          Buy lifetime access for $19.99
         </Button>
       )}
 

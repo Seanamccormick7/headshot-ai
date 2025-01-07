@@ -1,4 +1,3 @@
-// components/Navbar.jsx
 "use client";
 
 import { useState } from "react";
@@ -9,12 +8,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed w-full z-20 top-0 bg-transparent">
-      <div className="container mx-auto px-4 flex justify-between items-center py-4">
+    // Give the navbar a background color for visibility
+    <nav className="fixed w-full z-20 top-0 bg-gradient-to-r from-[#5DC9A8] to-[#1D976C]">
+      {/* Set a fixed height and use flex items-center to vertically center */}
+      <div className="container mx-auto px-4 flex justify-between items-center h-16">
         <Link href="/" className="text-white text-xl font-bold">
           Headshot-ai
         </Link>
-        <div className="hidden md:flex space-x-6">
+        <div className="hidden md:flex items-center space-x-6">
           <Link href="#hero" className="text-white hover:underline">
             Home
           </Link>
@@ -51,7 +52,7 @@ const Navbar = () => {
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12"
-                ></path>
+                />
               </svg>
             ) : (
               <svg
@@ -66,7 +67,7 @@ const Navbar = () => {
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h16M4 18h16"
-                ></path>
+                />
               </svg>
             )}
           </button>

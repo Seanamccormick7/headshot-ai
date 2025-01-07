@@ -18,7 +18,7 @@ const Hero = ({ id }: { id: string }) => {
         transition={{ duration: 1 }}
       >
         <Image
-          src="/images/hero-example.png" // Replace with your image path
+          src="/hero.svg" // Replace with your image path
           alt="AI Generated Headshot Example"
           width={300}
           height={300}
