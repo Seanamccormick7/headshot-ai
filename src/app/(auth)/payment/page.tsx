@@ -18,7 +18,10 @@ export default function Page({
 
   return (
     <main className="flex flex-col items-center space-y-10">
-      <H1>Headshot AI access requires payment</H1>
+      {searchParams.success && (
+        <H1>Success! You now have access to your dashboard.</H1>
+      )}
+      {searchParams.cancelled && <H1>Headshot AI access requires payment</H1>}
 
       {searchParams.success && (
         <Button
@@ -28,7 +31,7 @@ export default function Page({
           }}
           disabled={status === "loading" || session?.user.hasAccess}
         >
-          Access Headshot AI
+          View my Headshots
         </Button>
       )}
 
