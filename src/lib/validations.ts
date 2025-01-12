@@ -10,8 +10,8 @@ export const userProfileSchema = z.object({
   hairLength: z.string().trim().max(100).optional(),
   ethnicity: z.string().trim().max(100).optional(),
   bodyType: z.string().trim().max(100).optional(),
-  attire: z.string().trim().max(100).optional(),
-  backgrounds: z.string().trim().max(1000).optional(),
+  attire: z.string().trim().max(100),
+  backgrounds: z.string().trim().max(1000),
   glasses: z.preprocess((val) => {
     // If the checkbox is checked, the form sends "on"
     // If not checked, the field won't be present, and val will be undefined

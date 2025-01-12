@@ -194,6 +194,82 @@ export async function updateProfile(ProfileFormData: unknown) {
   }
 }
 
+/**
+ * Calls your Python backend to generate images based on the user's details in the DB.
+ */
+export async function generateHeadshots() {
+  // 1. Check if user is authenticated
+  const session = await checkAuth();
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+
+  // 2. Fetch the user from the DB
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+  });
+
+  if (!user) {
+    throw new Error("User does not exist in the database");
+  }
+
+  // 3. Confirm that required details exist
+  if (!user.hasDetails) {
+    console.log("hasDetails is false or user's profile is incomplete");
+    throw new Error("User's profile is incomplete or 'hasDetails' is false");
+  }
+
+  // 4. Prepare the request payload for the Python backend
+  //    Include all relevant fields (images, gender, hairColor, etc.)
+  const payload = {
+    userId: user.id,
+    gender: user.gender,
+    hairColor: user.hairColor,
+    hairLength: user.hairLength,
+    ethnicity: user.ethnicity,
+    bodyType: user.bodyType,
+    attire: user.attire,
+    backgrounds: user.backgrounds,
+    glasses: user.glasses,
+    images: user.images, // array of image URLs or UUIDs
+    // ...any other fields you need
+  };
+
+  // 5. Call your Python FastAPI endpoint
+  const pythonBackendURL = process.env.PYTHON_BACKEND_URL;
+  // e.g., "https://your-ec2-domain-or-ip/generate"
+  if (!pythonBackendURL) {
+    throw new Error("Python backend URL is not set in environment variables");
+  }
+
+  const response = await fetch(`${pythonBackendURL}/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Python backend error:", errorText);
+    throw new Error(
+      `Python backend responded with status ${response.status}: ${errorText}`
+    );
+  }
+
+  // 6. Parse response from Python (e.g. list of generated image URLs)
+  const result = await response.json();
+
+  // 7. (Optional) Store the generated results in your DB if needed
+  // e.g.,
+  // await prisma.user.update({
+  //   where: { id: user.id },
+  //   data: { generatedImages: result.generatedImages || [] },
+  // });
+
+  // 8. Return the result so your client can act on it
+  return result;
+}
+
 // --- pet actions ---
 
 export async function addPet(pet: unknown) {
