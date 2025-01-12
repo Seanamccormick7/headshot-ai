@@ -20,6 +20,11 @@ const backgroundOptions = [
   // Add more as needed
 ];
 
+const glassesOptions = [
+  { value: "true", label: "With Glasses", image: "/logo.svg" },
+  { value: "false", label: "Without Glasses", image: "/logo.svg" },
+];
+
 export default function AttireStep({
   formData,
   handleChange,
@@ -62,19 +67,17 @@ export default function AttireStep({
         />
       </div>
 
-      {/* Glasses (still a checkbox) */}
+      {/* Glasses */}
       <div className="mb-4">
-        <Label className="mb-2 inline-flex items-center" htmlFor="glasses">
-          <input
-            id="glasses"
-            name="glasses"
-            type="checkbox"
-            checked={formData.glasses}
-            onChange={handleChange}
-            className="mr-2"
-          />
-          With or Without Glasses
+        <Label className="mb-2 block" htmlFor="glasses">
+          Glasses
         </Label>
+        <RadioCardGroup
+          name="glasses"
+          currentValue={String(formData.glasses)}
+          options={glassesOptions}
+          onChange={handleChange}
+        />
       </div>
 
       <div className="flex justify-between">
