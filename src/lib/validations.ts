@@ -4,22 +4,24 @@ import { DEFAULT_PET_IMAGE } from "./constants";
 export const petIdSchema = z.string().cuid();
 
 export const userProfileSchema = z.object({
-  gender: z.string().trim().max(100).optional(),
-  age: z.coerce.number().int().positive().max(150).optional(),
-  hairColor: z.string().trim().max(100).optional(),
-  hairLength: z.string().trim().max(100).optional(),
-  ethnicity: z.string().trim().max(100).optional(),
-  bodyType: z.string().trim().max(100).optional(),
-  attire: z.string().trim().max(100),
-  backgrounds: z.string().trim().max(1000),
-  glasses: z.preprocess((val) => {
-    // If the checkbox is checked, the form sends "on"
-    // If not checked, the field won't be present, and val will be undefined
-    return val === "on";
-  }, z.boolean().default(false)),
+  gender: z.string().nonempty("Required"),
+  age: z.string().nonempty("Required"), // store as string, no numeric parsing here
+  hairColor: z.string().nonempty("Required"),
+  hairLength: z.string().nonempty("Required"),
+  ethnicity: z.string().nonempty("Required"),
+  bodyType: z.string().nonempty("Required"),
+  attire: z.string().nonempty("Required"),
+  backgrounds: z.string().nonempty("Required"),
+
+  // Glasses is also a radio group with "true"/"false".
+  // We'll keep it as a string.
+  glasses: z.enum(["true", "false"]).default("false"),
+
   images: z.array(z.string()).optional(),
   hasDetails: z.boolean().optional(),
-  step: z.coerce.number().int().positive().optional(), //not in db, used by updateProfile server action
+
+  // If step is posted as a string, that’s fine (zod can parse or ignore).
+  step: z.string().optional(),
 });
 
 export type TUserProfile = z.infer<typeof userProfileSchema>;

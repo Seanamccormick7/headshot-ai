@@ -21,14 +21,15 @@ export default function Profile() {
   //TODO: need to by default set them to current users values (not necessary)
   const [formData, setFormData] = useState<TUserProfile>({
     gender: "",
-    age: undefined,
+    age: "",
     hairColor: "",
     hairLength: "",
     ethnicity: "",
     bodyType: "",
     attire: "",
     backgrounds: "",
-    glasses: false,
+    glasses: "false",
+    step: "1",
   });
 
   useEffect(() => {
@@ -45,11 +46,10 @@ export default function Profile() {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, type, checked, value } = e.target;
-
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value, // Just store the string
     }));
   };
 

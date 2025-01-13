@@ -36,6 +36,7 @@ export default function AttireStep({
   prevStep: () => void;
   nextStep: () => void;
 }) {
+  console.log(formData.attire);
   return (
     <form action={updateProfile}>
       {/* Hidden step field */}

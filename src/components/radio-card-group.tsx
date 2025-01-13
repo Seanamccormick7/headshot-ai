@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 
@@ -31,10 +32,7 @@ export function RadioCardGroup({
               isChecked ? "border-blue-500" : "border-gray-300"
             }`}
           >
-            {/* 
-              Hidden radio input:
-              This is what is actually submitted in the form.  
-            */}
+            {/* Hidden radio input */}
             <input
               type="radio"
               name={name}
@@ -44,19 +42,15 @@ export function RadioCardGroup({
               className="sr-only"
             />
 
-            {/* 
-              The visible card content:
-              You can style or structure this any way you like, 
-              e.g., add images, text, etc.  
-            */}
+            {/* Visible card content */}
             <Image
               src={option.image}
               alt={option.label}
               width={128}
               height={128}
-              className="w-32 h-32"
+              className="w-32 h-32 object-cover"
             />
-            <p>{option.label}</p>
+            <p className="text-center mt-2">{option.label}</p>
           </label>
         );
       })}

@@ -100,50 +100,68 @@ export async function logOut() {
 // -- profile actions
 
 export async function updateProfile(ProfileFormData: unknown) {
-  //access user
+  // Check session
   const session = await checkAuth();
+  if (!session) {
+    return { message: "Not authenticated." };
+  }
 
-  //type check
+  // Ensure ProfileFormData is FormData
   if (!(ProfileFormData instanceof FormData)) {
     console.log("Not a FormData instance");
     return { message: "Invalid form data." };
   }
 
-  // Get all images first seperately because .entries() only gives one value per field name
+  // Get all images first (in case of multiple "images[]" fields)
   const imageUuids = ProfileFormData.getAll("images[]") as string[];
 
-  // Now convert FormData to a regular object
+  // Convert FormData to a plain object
   const formDataObj = Object.fromEntries(ProfileFormData.entries());
 
-  //validate the data against our user update schema
+  // Validate against Zod schema
   const validatedFormData = userProfileSchema.safeParse({
     ...formDataObj,
     images: imageUuids,
   });
   if (!validatedFormData.success) {
     console.log("Validation failed:", validatedFormData.error);
-    return {
-      message: "Invalid profile data.",
-    };
+    return { message: "Invalid profile data." };
   }
 
-  console.log("Data to update:", validatedFormData.data);
-  // Determine the step (assuming you passed a hidden input "step" in the form)
-  const step = validatedFormData.data.step;
-  delete validatedFormData.data.step; // remove step since it's not a field in the User model
+  // Extract the validated data
+  const data = validatedFormData.data;
+
+  // STEP is a string in the formData; we’ll store it separately
+  const step = data.step;
+  // Remove step since it’s not a user column
+  delete data.step;
+
+  // ---- TYPE CONVERSIONS (if your DB requires certain types) ----
+  // Convert glasses from "true"/"false" to boolean (if DB is a boolean column)
+  const glassesBool = data.glasses === "true";
+
+  // Convert age from string to number (if DB expects an int)
+  // If your DB actually stores age as a string, skip this.
+  const ageInt = parseInt(data.age, 10);
+
+  // Build the DB object (spreading your Zod-validated strings)
+  const userUpdateData: any = {
+    ...data,
+    images: data.images, // your array of strings
+    glasses: glassesBool, // boolean
+    age: isNaN(ageInt) ? null : ageInt, // integer or null
+  };
 
   try {
     await prisma.user.update({
       where: { id: session.user.id },
-      data: {
-        ...validatedFormData.data,
-        images: validatedFormData.data.images,
-      },
+      data: userUpdateData,
     });
+
     console.log("User profile updated successfully.");
 
-    // If this is the final step (e.g., step === 5), check if all fields are filled
-    if (step === 5) {
+    // ----- Check final step (if step == "5") -----
+    if (step === "5") {
       const updatedUser = await prisma.user.findUnique({
         where: { id: session.user.id },
       });
@@ -152,8 +170,8 @@ export async function updateProfile(ProfileFormData: unknown) {
         return { message: "User not found." };
       }
 
-      // Check if all required fields are filled
-      // Adjust the fields as per your requirements
+      // Make sure all required fields are filled
+      // (If your DB columns store them differently, adjust checks.)
       const requiredFields = [
         updatedUser.gender,
         updatedUser.age,
@@ -172,7 +190,7 @@ export async function updateProfile(ProfileFormData: unknown) {
       );
 
       if (allFieldsFilled) {
-        // Update hasDetails to true
+        // Mark hasDetails = true
         await prisma.user.update({
           where: { id: session.user.id },
           data: { hasDetails: true },
@@ -185,8 +203,8 @@ export async function updateProfile(ProfileFormData: unknown) {
 
     return { message: "User profile updated successfully." };
   } catch (error: any) {
+    // If Next.js triggered a redirect internally, re-throw
     if (error && error.digest && error.digest.startsWith("NEXT_REDIRECT")) {
-      // Re-throw the NEXT_REDIRECT error so Next.js can handle the redirect
       throw error;
     }
     console.error(error);
