@@ -14,8 +14,16 @@ export function createSignedHeaders(
   "Content-Type": string;
   "Content-MD5": string;
 } {
-  const secretKey = process.env.UPLOADCARE_SECRET_KEY || "";
-  const publicKey = process.env.UPLOADCARE_PUBLIC_KEY || "";
+  if (
+    !process.env.UPLOADCARE_SECRET_KEY ||
+    !process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY
+  ) {
+    throw new Error(
+      "UPLOADCARE_SECRET_KEY and NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY must be set"
+    );
+  }
+  const secretKey = process.env.UPLOADCARE_SECRET_KEY;
+  const publicKey = process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY;
 
   // Prepare the string to sign
   const signString = [verb, contentMd5, contentType, dateString, uri].join(

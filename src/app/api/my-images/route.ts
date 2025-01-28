@@ -36,43 +36,44 @@ export async function GET(request: NextRequest) {
 
 //DELETING A GENERATED IMAGE:
 export async function DELETE(request: NextRequest) {
-  const session = await checkAuth();
-  if (!session) {
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-  }
-
-  const { searchParams } = new URL(request.url);
-  const uuid = searchParams.get("uuid");
-  if (!uuid) {
-    return NextResponse.json({ error: "Missing image uuid" }, { status: 400 });
-  }
-
-  // 1) Check if user actually has this uuid in instanceImages or generatedImages
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      instanceImages: true,
-      generatedImages: true,
-    },
-  });
-
-  if (!user) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  }
-
-  // Does the user have that UUID in instanceImages or generatedImages?
-  const inInstance = user.instanceImages.includes(uuid);
-  const inGenerated = user.generatedImages.includes(uuid);
-
-  if (!inInstance && !inGenerated) {
-    return NextResponse.json(
-      { error: "Image does not belong to user." },
-      { status: 403 }
-    );
-  }
-
-  // 2) Call Uploadcare to delete the file
   try {
+    const session = await checkAuth();
+    if (!session) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const uuid = searchParams.get("uuid");
+    if (!uuid) {
+      return NextResponse.json(
+        { error: "Missing image uuid" },
+        { status: 400 }
+      );
+    }
+
+    // 1) Check if user actually has this uuid in instanceImages or generatedImages
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        generatedImages: true,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Does the user have that UUID in instanceImages or generatedImages?
+    const inGenerated = user.generatedImages.includes(uuid);
+
+    if (!inGenerated) {
+      return NextResponse.json(
+        { error: "Image does not belong to user." },
+        { status: 403 }
+      );
+    }
+
+    // 2) Call Uploadcare to delete the file
     const uri = `/files/${uuid}/`;
     const verb = "DELETE";
     const contentMd5 = md5hash("");
@@ -93,32 +94,20 @@ export async function DELETE(request: NextRequest) {
     });
 
     if (!ucRes.ok) {
+      // Log the text from Uploadcare so you can see the exact cause
       const errText = await ucRes.text();
+      console.error("Uploadcare DELETE error response:", errText);
       return NextResponse.json(
         { error: `UC delete failed: ${errText}` },
         { status: 500 }
       );
     }
 
-    // 3) Remove the UUID from the user’s array in the DB
-    if (inInstance) {
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: {
-          instanceImages: user.instanceImages.filter((id) => id !== uuid),
-        },
-      });
-    } else {
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: {
-          generatedImages: user.generatedImages.filter((id) => id !== uuid),
-        },
-      });
-    }
+    // If it got here, UC says it deleted the file successfully.
+    // Then remove from your DB as you already do.
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });
   }
