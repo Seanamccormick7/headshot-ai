@@ -74,7 +74,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // 2) Call Uploadcare to delete the file
-    const uri = `/files/${uuid}/`;
+    const uri = `/files/${uuid}/storage/`;
     const verb = "DELETE";
     const contentMd5 = md5hash("");
     const contentType = "application/json";
