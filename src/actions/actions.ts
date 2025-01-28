@@ -99,112 +99,80 @@ export async function logOut() {
 
 // -- profile actions
 
-export async function updateProfile(ProfileFormData: unknown) {
-  // Check session
+export async function updateProfile(finalProfileData: unknown) {
+  // 1) Check session
   const session = await checkAuth();
   if (!session) {
     return { message: "Not authenticated." };
   }
 
-  // Ensure ProfileFormData is FormData
-  if (!(ProfileFormData instanceof FormData)) {
-    console.log("Not a FormData instance");
-    return { message: "Invalid form data." };
-  }
-
-  // Get all images first (in case of multiple "instanceImages[]" fields)
-  const imageUuids = ProfileFormData.getAll("instanceImages[]") as string[];
-
-  // Convert FormData to a plain object
-  const formDataObj = Object.fromEntries(ProfileFormData.entries());
-
-  // Validate against Zod schema
-  const validatedFormData = userProfileSchema.safeParse({
-    ...formDataObj,
-    instanceImages: imageUuids,
-  });
-  if (!validatedFormData.success) {
-    console.log("Validation failed:", validatedFormData.error);
+  // 2) Validate with your full userProfileSchema.
+  //    This ensures only valid data can update your DB.
+  const parsed = userProfileSchema.safeParse(finalProfileData);
+  if (!parsed.success) {
+    console.error("Validation failed:", parsed.error);
     return { message: "Invalid profile data." };
   }
 
-  // Extract the validated data
-  const data = validatedFormData.data;
+  const data = parsed.data;
 
-  // STEP is a string in the formData; we’ll store it separately
-  const step = data.step;
-  // Remove step since it’s not a user column
-  delete data.step;
-
-  // ---- TYPE CONVERSIONS (if your DB requires certain types) ----
-  // Convert glasses from "true"/"false" to boolean (if DB is a boolean column)
+  // 3) Convert glasses + age, etc., if needed
   const glassesBool = data.glasses === "true";
-
-  // Convert age from string to number (if DB expects an int)
-  // If your DB actually stores age as a string, skip this.
   const ageInt = parseInt(data.age, 10);
-
-  // Build the DB object (spreading your Zod-validated strings)
   const userUpdateData: any = {
     ...data,
-    instanceImages: data.instanceImages, // your array of strings
-    glasses: glassesBool, // boolean
-    age: isNaN(ageInt) ? null : ageInt, // integer or null
+    instanceImages: data.instanceImages || [],
+    glasses: glassesBool,
+    age: isNaN(ageInt) ? null : ageInt,
   };
 
   try {
+    // 4) Update DB
     await prisma.user.update({
       where: { id: session.user.id },
       data: userUpdateData,
     });
-
     console.log("User profile updated successfully.");
 
-    // ----- Check final step (if step == "5") -----
-    if (step === "5") {
-      const updatedUser = await prisma.user.findUnique({
+    // 5) Check if all required fields are filled, then set hasDetails
+    const updatedUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+    if (!updatedUser) {
+      return { message: "User not found." };
+    }
+
+    // This is the same logic as before: see if key fields are non-empty.
+    const requiredFields = [
+      updatedUser.gender,
+      updatedUser.age,
+      updatedUser.hairColor,
+      updatedUser.hairLength,
+      updatedUser.ethnicity,
+      updatedUser.bodyType,
+      updatedUser.attire,
+      updatedUser.backgrounds,
+      // glasses is boolean, just ensure it’s not null
+      updatedUser.glasses,
+    ];
+
+    const allFieldsFilled = requiredFields.every(
+      (field) => field !== null && field !== ""
+    );
+    if (allFieldsFilled) {
+      // Mark hasDetails = true
+      await prisma.user.update({
         where: { id: session.user.id },
+        data: { hasDetails: true },
       });
-
-      if (!updatedUser) {
-        return { message: "User not found." };
-      }
-
-      // Make sure all required fields are filled
-      // (If your DB columns store them differently, adjust checks.)
-      const requiredFields = [
-        updatedUser.gender,
-        updatedUser.age,
-        updatedUser.hairColor,
-        updatedUser.hairLength,
-        updatedUser.ethnicity,
-        updatedUser.bodyType,
-        updatedUser.attire,
-        updatedUser.backgrounds,
-        // glasses is boolean, just ensure it's not null
-        updatedUser.glasses,
-      ];
-
-      const allFieldsFilled = requiredFields.every(
-        (field) => field !== null && field !== ""
-      );
-
-      if (allFieldsFilled) {
-        // Mark hasDetails = true
-        await prisma.user.update({
-          where: { id: session.user.id },
-          data: { hasDetails: true },
-        });
-
-        // Redirect to payment
-        redirect("/payment");
-      }
+      // Optional redirect
+      redirect("/payment");
     }
 
     return { message: "User profile updated successfully." };
   } catch (error: any) {
-    // If Next.js triggered a redirect internally, re-throw
-    if (error && error.digest && error.digest.startsWith("NEXT_REDIRECT")) {
+    // If Next.js triggered a redirect, re-throw
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
     }
     console.error(error);

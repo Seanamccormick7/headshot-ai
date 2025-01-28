@@ -38,10 +38,7 @@ export default function AttireStep({
 }) {
   console.log(formData.attire);
   return (
-    <form action={updateProfile}>
-      {/* Hidden step field */}
-      <input type="hidden" name="step" value="4" />
-
+    <div>
       {/* Attire */}
       <div className="mb-4">
         <Label className="mb-2 block" htmlFor="attire">
@@ -89,6 +86,6 @@ export default function AttireStep({
           Next
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

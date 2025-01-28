@@ -32,9 +32,7 @@ export default function HairStep({
   nextStep: () => void;
 }) {
   return (
-    <form action={updateProfile}>
-      <input type="hidden" name="step" value="2" />
-
+    <div>
       <div className="mb-4">
         <Label className="mb-2 block" htmlFor="hairColor">
           Hair Color
@@ -67,6 +65,6 @@ export default function HairStep({
           Next
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

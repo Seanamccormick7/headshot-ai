@@ -29,9 +29,7 @@ export default function GenderStep({
   nextStep: () => void;
 }) {
   return (
-    <form action={updateProfile}>
-      <input type="hidden" name="step" value="1" />
-
+    <div>
       <div className="mb-4">
         <Label className="mb-2 block" htmlFor="gender">
           Gender
@@ -59,6 +57,6 @@ export default function GenderStep({
       <Button type="submit" onClick={nextStep}>
         Next
       </Button>
-    </form>
+    </div>
   );
 }

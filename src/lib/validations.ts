@@ -24,6 +24,31 @@ export const userProfileSchema = z.object({
   step: z.string().optional(),
 });
 
+// Step 1: gender, age
+export const step1Schema = userProfileSchema.pick({
+  gender: true,
+  age: true,
+});
+
+// Step 2: hairColor, hairLength
+export const step2Schema = userProfileSchema.pick({
+  hairColor: true,
+  hairLength: true,
+});
+
+// Step 3: ethnicity, bodyType
+export const step3Schema = userProfileSchema.pick({
+  ethnicity: true,
+  bodyType: true,
+});
+
+// Step 4: attire, backgrounds, glasses
+export const step4Schema = userProfileSchema.pick({
+  attire: true,
+  backgrounds: true,
+  glasses: true,
+});
+
 export type TUserProfile = z.infer<typeof userProfileSchema>;
 
 export const petFormSchema = z

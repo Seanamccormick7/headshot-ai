@@ -32,9 +32,7 @@ export default function EthnicityStep({
   nextStep: () => void;
 }) {
   return (
-    <form action={updateProfile}>
-      <input type="hidden" name="step" value="3" />
-
+    <div>
       <div className="mb-4">
         <Label className="mb-2 block" htmlFor="ethnicity">
           Ethnicity
@@ -67,6 +65,6 @@ export default function EthnicityStep({
           Next
         </Button>
       </div>
-    </form>
+    </div>
   );
 }
