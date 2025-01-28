@@ -249,7 +249,7 @@ export async function generateHeadshots() {
     attire: user.attire,
     backgrounds: user.backgrounds,
     glasses: user.glasses,
-    instanceImages: user.images, // array of image URLs or UUIDs
+    instanceImages: user.instanceImages, // array of image URLs or UUIDs
     // ...any other fields you need
   };
 

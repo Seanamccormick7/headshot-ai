@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
     await prisma.user.update({
       where: { id: userId },
       data: {
-        images: {
+        generatedImages: {
           push: images, // append new images to the existing array
         },
       },

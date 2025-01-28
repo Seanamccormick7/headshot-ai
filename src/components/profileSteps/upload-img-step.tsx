@@ -61,6 +61,8 @@ export default function UploadImageStep({
               src={`https://ucarecdn.com/${uuid}/`}
               alt={`Uploaded ${index}`}
               style={{ maxWidth: "200px" }}
+              width={400}
+              height={400}
             />
           ))}
         </div>
