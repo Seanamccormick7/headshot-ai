@@ -113,7 +113,7 @@ export async function updateProfile(ProfileFormData: unknown) {
   }
 
   // Get all images first (in case of multiple "images[]" fields)
-  const imageUuids = ProfileFormData.getAll("images[]") as string[];
+  const imageUuids = ProfileFormData.getAll("instanceImages[]") as string[];
 
   // Convert FormData to a plain object
   const formDataObj = Object.fromEntries(ProfileFormData.entries());
@@ -121,7 +121,7 @@ export async function updateProfile(ProfileFormData: unknown) {
   // Validate against Zod schema
   const validatedFormData = userProfileSchema.safeParse({
     ...formDataObj,
-    images: imageUuids,
+    instanceImages: imageUuids,
   });
   if (!validatedFormData.success) {
     console.log("Validation failed:", validatedFormData.error);
@@ -147,7 +147,7 @@ export async function updateProfile(ProfileFormData: unknown) {
   // Build the DB object (spreading your Zod-validated strings)
   const userUpdateData: any = {
     ...data,
-    images: data.images, // your array of strings
+    instanceImages: data.instanceImages, // your array of strings
     glasses: glassesBool, // boolean
     age: isNaN(ageInt) ? null : ageInt, // integer or null
   };
@@ -249,7 +249,7 @@ export async function generateHeadshots() {
     attire: user.attire,
     backgrounds: user.backgrounds,
     glasses: user.glasses,
-    images: user.images, // array of image URLs or UUIDs
+    instanceImages: user.images, // array of image URLs or UUIDs
     // ...any other fields you need
   };
 

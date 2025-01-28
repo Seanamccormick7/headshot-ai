@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
 import "@uploadcare/react-uploader/core.css";
+import Image from "next/image";
 
 export default function UploadImageStep({
   formData,
@@ -23,7 +24,7 @@ export default function UploadImageStep({
         <FileUploaderRegular
           sourceList="local, url, camera, dropbox, gdrive"
           classNameUploader="uc-light"
-          pubkey="287d16f78a4a39098943"
+          pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY || ""}
           onChange={(outputState) => {
             // Extract successful file entries
             const uploadedFiles = outputState.successEntries;
@@ -38,7 +39,12 @@ export default function UploadImageStep({
         <input type="hidden" name="step" value="5" />
 
         {imageUuids.map((uuid, index) => (
-          <input type="hidden" name="images[]" value={uuid} key={index} />
+          <input
+            type="hidden"
+            name="instanceImages[]"
+            value={uuid}
+            key={index}
+          />
         ))}
 
         <Button onClick={prevStep}>Previous</Button>
@@ -50,7 +56,7 @@ export default function UploadImageStep({
         <div style={{ marginTop: "20px" }}>
           <h3>Uploaded Images:</h3>
           {imageUuids.map((uuid, index) => (
-            <img
+            <Image
               key={index}
               src={`https://ucarecdn.com/${uuid}/`}
               alt={`Uploaded ${index}`}

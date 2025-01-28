@@ -17,7 +17,7 @@ export const userProfileSchema = z.object({
   // We'll keep it as a string.
   glasses: z.enum(["true", "false"]).default("false"),
 
-  images: z.array(z.string()).optional(),
+  instanceImages: z.array(z.string()).optional(),
   hasDetails: z.boolean().optional(),
 
   // If step is posted as a string, that’s fine (zod can parse or ignore).
