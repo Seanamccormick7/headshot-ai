@@ -38,7 +38,6 @@ export default function Profile() {
     attire: "",
     backgrounds: "",
     glasses: "false",
-    step: "1",
     instanceImages: [],
   });
 
