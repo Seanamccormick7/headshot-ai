@@ -112,7 +112,7 @@ export async function updateProfile(ProfileFormData: unknown) {
     return { message: "Invalid form data." };
   }
 
-  // Get all images first (in case of multiple "images[]" fields)
+  // Get all images first (in case of multiple "instanceImages[]" fields)
   const imageUuids = ProfileFormData.getAll("instanceImages[]") as string[];
 
   // Convert FormData to a plain object

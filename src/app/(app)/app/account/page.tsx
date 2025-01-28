@@ -7,14 +7,14 @@ export default async function Page() {
   const session = await checkAuth();
 
   return (
-    <main>
+    <section>
+      {/* TODO: Maybe change to a fragment if section not necessary */}
       <H1 className="my-8 text-white">Your Account</H1>
-
       <ContentBlock className="h-[500px] flex flex-col gap-3 justify-center items-center">
         <p>Logged in as {session.user.email}</p>
 
         <SignOutBtn />
       </ContentBlock>
-    </main>
+    </section>
   );
 }

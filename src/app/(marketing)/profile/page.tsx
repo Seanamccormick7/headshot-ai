@@ -18,7 +18,7 @@ export default function Profile() {
   const [currentStep, setCurrentStep] = useState(1);
 
   //lifted up controlled state for all form fields. By default set them all to empty strings
-  //TODO: need to by default set them to current users values (not necessary)
+  //TODO: need to by default set them to current users values from DB (not necessary)
   const [formData, setFormData] = useState<TUserProfile>({
     gender: "",
     age: "",

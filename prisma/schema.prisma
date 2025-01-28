@@ -15,7 +15,6 @@ model User {
   email           String   @unique
   hashedPassword  String
   hasAccess       Boolean  @default(false)
-  pets            Pet[]
   updatedAt       DateTime @updatedAt
   createdAt       DateTime @default(now())
   gender          String?
@@ -30,17 +29,4 @@ model User {
   instanceImages  String[] // for user-uploaded images (the ones they provide)
   hasDetails      Boolean  @default(false)
   generatedImages String[] // for the AI-generated images
-}
-
-model Pet {
-  id        String   @id @default(cuid())
-  name      String
-  ownerName String
-  imageUrl  String
-  age       Int
-  notes     String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
 }
