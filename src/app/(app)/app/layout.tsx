@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SideMenu from "@/components/side-menu";
 import AppHeader from "@/components/app-header";
-import { checkAuth, getPetsByUserId } from "@/lib/server-utils";
+import { checkAuth } from "@/lib/server-utils";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,7 +19,6 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const session = await checkAuth();
-  const pets = await getPetsByUserId(session.user.id);
 
   return (
     <div className={`${inter.className} flex flex-col min-h-screen`}>
