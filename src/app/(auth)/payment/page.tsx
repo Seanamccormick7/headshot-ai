@@ -1,6 +1,6 @@
 "use client";
 
-import { createCheckoutSession } from "@/actions/actions";
+import { createCheckoutSession, generateHeadshots } from "@/actions/actions";
 import H1 from "@/components/h1";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
@@ -26,6 +26,7 @@ export default function Page({
       {searchParams.success && (
         <Button
           onClick={async () => {
+            await generateHeadshots();
             await update(true);
             router.push("/app/dashboard/gallery");
           }}

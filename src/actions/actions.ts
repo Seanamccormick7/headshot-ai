@@ -5,7 +5,6 @@ import prisma from "@/lib/db";
 import {
   authSchema,
   petFormSchema,
-  petIdSchema,
   userProfileSchema,
 } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
@@ -180,10 +179,8 @@ export async function updateProfile(finalProfileData: unknown) {
   }
 }
 
-/**
- * Calls your Python backend to generate images based on the user's details in the DB.
- */
 export async function generateHeadshots() {
+  console.log("generateHeadshot action called... ");
   // 1. Check if user is authenticated
   const session = await checkAuth();
   if (!session) {
@@ -206,7 +203,6 @@ export async function generateHeadshots() {
   }
 
   // 4. Prepare the request payload for the Python backend
-  //    Include all relevant fields (images, gender, hairColor, etc.)
   const payload = {
     userId: user.id,
     gender: user.gender,
@@ -217,8 +213,10 @@ export async function generateHeadshots() {
     attire: user.attire,
     backgrounds: user.backgrounds,
     glasses: user.glasses,
-    instanceImages: user.instanceImages, // array of image URLs or UUIDs
-    // ...any other fields you need
+    instanceImages: user.instanceImages, // array of Uploadcare UUIDs from earlier
+
+    // IMPORTANT: Add a callbackUrl that the Python script will hit when it's done
+    callbackUrl: `${process.env.CANONICAL_URL}/api/generate-callback`,
   };
 
   // 5. Call your Python FastAPI endpoint
@@ -242,51 +240,11 @@ export async function generateHeadshots() {
     );
   }
 
-  // 6. Parse response from Python (e.g. list of generated image URLs)
-  const result = await response.json();
-
-  // 7. (Optional) Store the generated results in your DB if needed
-  // e.g.,
-  // await prisma.user.update({
-  //   where: { id: user.id },
-  //   data: { generatedImages: result.generatedImages || [] },
-  // });
-
-  // 8. Return the result so your client can act on it
-  return result;
-}
-
-// --- pet actions ---
-
-export async function addPet(pet: unknown) {
-  const session = await checkAuth();
-
-  const validatedPet = petFormSchema.safeParse(pet);
-  if (!validatedPet.success) {
-    return {
-      message: "Invalid pet data.",
-    };
-  }
-
-  try {
-    await prisma.pet.create({
-      data: {
-        ...validatedPet.data,
-        user: {
-          connect: {
-            id: session.user.id,
-          },
-        },
-      },
-    });
-  } catch (error) {
-    console.log(error);
-    return {
-      message: "Could not add pet.",
-    };
-  }
-
-  revalidatePath("/app", "layout");
+  // We *don't* wait for 2 hours. The Python side will callback.
+  return {
+    message:
+      "Generation request started. It may take up to ~2 hours. Check back later!",
+  };
 }
 
 // --- payment actions ---

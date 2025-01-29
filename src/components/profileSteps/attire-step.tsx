@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { TUserProfile } from "@/lib/validations";
-import { updateProfile } from "@/actions/actions";
 import { RadioCardGroup } from "../radio-card-group";
 
 const attireOptions = [
