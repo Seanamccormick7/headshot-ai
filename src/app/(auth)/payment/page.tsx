@@ -1,11 +1,11 @@
 "use client";
 
-import { createCheckoutSession, generateHeadshots } from "@/actions/actions";
+import { createCheckoutSession } from "@/actions/actions";
 import H1 from "@/components/h1";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 
 export default function Page({
   searchParams,
@@ -15,6 +15,28 @@ export default function Page({
   const [isPending, startTransition] = useTransition();
   const { data: session, update, status } = useSession();
   const router = useRouter();
+
+  // Add local state for status or error
+  const [genStatus, setGenStatus] = useState<string | null>(null);
+
+  async function handleGenerate() {
+    setGenStatus(null);
+    try {
+      // We do a POST to our new API route
+      const res = await fetch("/api/generate-headshots", {
+        method: "POST",
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed with status ${res.status}: ${errorText}`);
+      }
+      const data = await res.json();
+      setGenStatus(data.message || "Success!");
+    } catch (err: any) {
+      console.error(err);
+      setGenStatus(err.message);
+    }
+  }
 
   return (
     <main className="flex flex-col items-center space-y-10">
@@ -26,8 +48,13 @@ export default function Page({
       {searchParams.success && (
         <Button
           onClick={async () => {
-            await generateHeadshots();
+            // 1) Optionally re-check user session
             await update(true);
+
+            // 2) Call the new function
+            await handleGenerate();
+
+            // 3) Then proceed to gallery
             router.push("/app/dashboard/gallery");
           }}
           disabled={status === "loading" || session?.user.hasAccess}
@@ -45,7 +72,6 @@ export default function Page({
             });
           }}
         >
-          {/* TODO: change this price might just use differnt stripe type (not a seperate page) */}
           Buy lifetime access for $19.99
         </Button>
       )}
@@ -60,6 +86,8 @@ export default function Page({
           Payment cancelled. You can try again.
         </p>
       )}
+
+      {genStatus && <p>{genStatus}</p>}
     </main>
   );
 }
