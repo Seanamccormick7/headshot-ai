@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import HomeFooter from "@/components/homePage/home-footer";
 import Navbar from "@/components/homePage/navbar";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,9 @@ export default function RootLayout({
       >
         <Navbar />
         <SessionProvider>
-          <main className="flex-1">{children}</main>
+          <Suspense fallback={<p>Loading profile...</p>}>
+            <main className="flex-1">{children}</main>
+          </Suspense>
         </SessionProvider>
         <HomeFooter />
       </body>
