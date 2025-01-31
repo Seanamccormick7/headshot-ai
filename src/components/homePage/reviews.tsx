@@ -41,7 +41,7 @@ const Reviews = ({ id }: { id: string }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              <p className="text-lg mb-4">"{review.text}"</p>
+              <p className="text-lg mb-4">`{review.text}`</p>
               <p className="text-sm font-semibold text-right">
                 - {review.name}
               </p>
