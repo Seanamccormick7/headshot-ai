@@ -2,11 +2,7 @@
 
 import { auth, signIn, signOut } from "@/lib/auth-no-edge";
 import prisma from "@/lib/db";
-import {
-  authSchema,
-  petFormSchema,
-  userProfileSchema,
-} from "@/lib/validations";
+import { authSchema, userProfileSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
