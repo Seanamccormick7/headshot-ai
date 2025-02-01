@@ -202,6 +202,7 @@ export async function generateHeadshots() {
   const payload = {
     userId: user.id,
     gender: user.gender,
+    age: user.age,
     hairColor: user.hairColor,
     hairLength: user.hairLength,
     ethnicity: user.ethnicity,
