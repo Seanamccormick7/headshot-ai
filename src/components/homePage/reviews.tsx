@@ -19,10 +19,10 @@ const reviews = [
 
 const Reviews = ({ id }: { id: string }) => {
   return (
-    <section id={id} className="py-20 bg-gray-100">
+    <section id={id} className="py-20 bg-violet-50">
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-4xl font-bold text-center mb-12"
+          className="text-4xl font-bold text-center mb-12 text-violet-700"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -41,9 +41,9 @@ const Reviews = ({ id }: { id: string }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              <p className="text-lg mb-4">`{review.text}`</p>
-              <p className="text-sm font-semibold text-right">
-                - {review.name}
+              <p className="text-lg mb-4">“{review.text}”</p>
+              <p className="text-sm font-semibold text-right text-violet-700">
+                – {review.name}
               </p>
             </motion.div>
           ))}

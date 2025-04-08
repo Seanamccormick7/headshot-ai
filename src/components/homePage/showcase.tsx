@@ -7,7 +7,6 @@ const showcaseImages = [
   "/images/showcase1.png",
   "/images/showcase2.png",
   "/images/showcase3.png",
-  // Add more image paths as needed
 ];
 
 const Showcase = ({ id }: { id: string }) => {
@@ -15,7 +14,7 @@ const Showcase = ({ id }: { id: string }) => {
     <section id={id} className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-4xl font-bold text-center mb-12"
+          className="text-4xl font-bold text-center mb-12 text-violet-700"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

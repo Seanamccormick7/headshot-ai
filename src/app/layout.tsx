@@ -9,7 +9,7 @@ import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Headshot-ai | Professional AI-Generated Headshots",
   description:
     "Get professional AI-generated headshots quickly and affordably with Headshot-ai.",
@@ -19,13 +19,17 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
+      {/* 
+        A subtle, light background that complements a blue accent.
+        You can experiment with using a lighter or darker background. 
+      */}
       <body
-        className={`${inter.className} flex flex-col text-sm min-h-screen text-zinc-900 bg-[#E5E8EC]`}
+        className={`${inter.className} flex flex-col text-sm min-h-screen text-zinc-900 bg-white`}
       >
         <Navbar />
         <SessionProvider>
