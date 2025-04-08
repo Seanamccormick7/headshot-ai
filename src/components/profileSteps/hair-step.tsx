@@ -6,16 +6,16 @@ import { TUserProfile } from "@/lib/validations";
 import { RadioCardGroup } from "@/components/radio-card-group"; // Adjust path
 
 const hairColorOptions = [
-  { value: "blonde", label: "Blonde", image: "/logo.svg" },
-  { value: "brown", label: "Brown", image: "/logo.svg" },
-  { value: "black", label: "Black", image: "/logo.svg" },
+  { value: "blonde", label: "Blonde", image: "/images/27.webp" },
+  { value: "brown", label: "Brown", image: "/images/8.webp" },
+  { value: "black", label: "Black", image: "/images/20.webp" },
   // Add more as needed
 ];
 
 const hairLengthOptions = [
-  { value: "short", label: "Short", image: "/logo.svg" },
-  { value: "medium", label: "Medium", image: "/logo.svg" },
-  { value: "long", label: "Long", image: "/logo.svg" },
+  { value: "short", label: "Short", image: "/images/24.webp" },
+  { value: "medium", label: "Medium", image: "/images/39.webp" },
+  { value: "long", label: "Long", image: "/images/3.webp" },
   // Add more as needed
 ];
 

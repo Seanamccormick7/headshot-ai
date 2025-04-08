@@ -6,22 +6,23 @@ import { TUserProfile } from "@/lib/validations";
 import { RadioCardGroup } from "../radio-card-group";
 
 const attireOptions = [
-  { value: "casual", label: "Casual", image: "/logo.svg" },
-  { value: "formal", label: "Formal", image: "/logo.svg" },
-  { value: "sporty", label: "Sporty", image: "/logo.svg" },
+  { value: "casual", label: "Casual", image: "/images/36.webp" },
+  { value: "semiformal", label: "Business Casual", image: "/images/40.webp" },
+  { value: "formal", label: "Formal", image: "/images/31.webp" },
   // Add more as needed
 ];
 
 const backgroundOptions = [
-  { value: "studio", label: "Studio", image: "/logo.svg" },
-  { value: "outdoor", label: "Outdoor", image: "/logo.svg" },
-  { value: "city", label: "City", image: "/logo.svg" },
+  { value: "studio", label: "Studio", image: "/images/28.webp" },
+  { value: "outdoor", label: "Outdoor", image: "/images/11.webp" },
+  { value: "city", label: "City", image: "/images/2.webp" },
+  { value: "office", label: "Office", image: "/images/7.webp" },
   // Add more as needed
 ];
 
 const glassesOptions = [
-  { value: "true", label: "With Glasses", image: "/logo.svg" },
-  { value: "false", label: "Without Glasses", image: "/logo.svg" },
+  { value: "true", label: "With Glasses", image: "/images/39.webp" },
+  { value: "false", label: "Without Glasses", image: "/images/33.webp" },
 ];
 
 export default function AttireStep({

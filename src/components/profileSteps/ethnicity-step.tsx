@@ -6,16 +6,19 @@ import { TUserProfile } from "@/lib/validations";
 import { RadioCardGroup } from "@/components/radio-card-group"; // Adjust path
 
 const ethnicityOptions = [
-  { value: "asian", label: "Asian", image: "/logo.svg" },
-  { value: "white", label: "White", image: "/logo.svg" },
-  { value: "black", label: "Black", image: "/logo.svg" },
+  { value: "asian", label: "Asian", image: "/images/13.webp" },
+  { value: "white", label: "White", image: "/images/10.webp" },
+  { value: "black", label: "Black", image: "/images/16.webp" },
+  { value: "hispanic", label: "Hispanic", image: "/images/15.webp" },
+  { value: "arab", label: "Arab", image: "/images/22.webp" },
   // Add more as needed
 ];
 
 const bodyTypeOptions = [
-  { value: "slim", label: "Slim", image: "/logo.svg" },
-  { value: "average", label: "Average", image: "/logo.svg" },
-  { value: "muscular", label: "Muscular", image: "/logo.svg" },
+  { value: "slim", label: "Slim", image: "/images/9.webp" },
+  { value: "average", label: "Average", image: "/images/7.webp" },
+  { value: "heavier", label: "Heavier", image: "/images/29.webp" },
+  { value: "muscular", label: "Muscular", image: "/images/34.webp" },
   // Add more as needed
 ];
 
