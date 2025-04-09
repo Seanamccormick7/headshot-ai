@@ -2,6 +2,7 @@
 
 import { createCheckoutSession } from "@/actions/actions";
 import H1 from "@/components/h1";
+import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -40,6 +41,7 @@ export default function Page({
 
   return (
     <main className="flex flex-col items-center space-y-10">
+      <Logo />
       {searchParams.success && (
         <H1>Success! You now have access to your dashboard.</H1>
       )}

@@ -4,9 +4,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const showcaseImages = [
-  "/images/showcase1.png",
-  "/images/showcase2.png",
-  "/images/showcase3.png",
+  "/images/32.webp",
+  "/images/25.webp",
+  "/images/15.webp",
 ];
 
 const Showcase = ({ id }: { id: string }) => {

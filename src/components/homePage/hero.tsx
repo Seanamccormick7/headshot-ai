@@ -8,10 +8,9 @@ import Logo from "../logo";
 
 const Hero = ({ id }: { id: string }) => {
   return (
-    // Updated gradient to a sleek blue range
     <section
       id={id}
-      className="bg-gradient-to-r from-violet-700 to-violet-400 min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20"
+      className="bg-gradient-to-r from-violet-700 to-violet-400 flex flex-col items-center justify-center text-center px-4"
     >
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -19,19 +18,16 @@ const Hero = ({ id }: { id: string }) => {
         transition={{ duration: 1 }}
       >
         <Image
-          src="/hero.svg" // Replace with your image path
+          src="/images/11.webp" // Replace with your image path
           alt="AI Generated Headshot Example"
           width={300}
           height={300}
-          className="rounded-full shadow-lg"
+          className="rounded-3xl shadow-lg"
         />
       </motion.div>
 
-      {/* Logo, can stay or be replaced */}
-      <Logo className="my-6" />
-
       <motion.h1
-        className="text-5xl font-extrabold text-white mb-4"
+        className="text-5xl font-extrabold text-white my-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}

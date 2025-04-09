@@ -4,16 +4,16 @@ import { motion } from "framer-motion";
 
 const reviews = [
   {
-    name: "Jane Doe",
-    text: "Headshot-ai transformed my LinkedIn profile. The quality is amazing!",
+    name: "Mark Zidan",
+    text: "I was on the hunt for an AI LinkedIn photo generator, and my professional headshots from Headshot-AI turned out so beautifully! Really high quality and accuracy. This is way, way better than any other AI headshot generator I've seen.",
   },
   {
-    name: "John Smith",
-    text: "Quick, affordable, and professional. Highly recommend!",
+    name: "Joan L.",
+    text: "Headshot-AI is the best AI headshot generator by far! I can't believe how natural my new professional headshots look.",
   },
   {
-    name: "Alice Johnson",
-    text: "The AI-generated headshots are lifelike and exactly what I needed.",
+    name: "Daniel Yao",
+    text: "I was unsure about the process. But I took a leap of faith, and I am pleasantly surprised by my AI headshots! Definitely more affordable than a professional photographer. I'd recommend it!",
   },
 ];
 

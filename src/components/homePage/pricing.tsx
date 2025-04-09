@@ -7,18 +7,18 @@ import Link from "next/link";
 const pricingPlans = [
   {
     name: "Basic",
-    price: "$19/month",
-    features: ["1 Headshot", "Standard Resolution", "Email Support"],
+    price: "$19.99",
+    features: ["100 Headshots", "Standard Resolution", "Email Support"],
   },
   {
     name: "Pro",
-    price: "$49/month",
-    features: ["5 Headshots", "High Resolution", "Priority Support"],
+    price: "$49.99",
+    features: ["300 Headshots", "Custom Requests", "2 Redos"],
   },
   {
     name: "Enterprise",
-    price: "$99/month",
-    features: ["Unlimited Headshots", "Custom Branding", "Dedicated Support"],
+    price: "$99.99",
+    features: ["1000 Headshots", "Custom Requests", "10 Redos"],
   },
 ];
 

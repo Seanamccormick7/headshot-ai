@@ -34,7 +34,7 @@ export default function RootLayout({
         <SessionProvider>
           <Navbar />
           <Suspense fallback={<p>Loading profile...</p>}>
-            <main className="flex-1 pt-16">{children}</main>
+            <main className="flex flex-col flex-1 pt-16">{children}</main>
           </Suspense>
         </SessionProvider>
         <HomeFooter />
