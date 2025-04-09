@@ -17,7 +17,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex justify-between items-center h-16">
         {/* Logo / Brand */}
         <Link href="/" className="text-white text-xl font-bold">
-          Headshot-ai
+          Headshot-AI
         </Link>
 
         {/* Desktop Menu */}

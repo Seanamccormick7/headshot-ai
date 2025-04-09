@@ -4,21 +4,36 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import Logo from "../logo";
+import { ChevronDown } from "lucide-react";
 
 const Hero = ({ id }: { id: string }) => {
   return (
     <section
       id={id}
-      className="bg-gradient-to-r from-violet-700 to-violet-400 flex flex-col items-center justify-center text-center px-4"
+      className="bg-gradient-to-r from-violet-700 to-violet-400 min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-4"
     >
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
+        className="flex gap-4"
       >
         <Image
           src="/images/11.webp" // Replace with your image path
+          alt="AI Generated Headshot Example"
+          width={300}
+          height={300}
+          className="rounded-3xl shadow-lg"
+        />
+        <Image
+          src="/images/28.webp" // Replace with your image path
+          alt="AI Generated Headshot Example"
+          width={300}
+          height={300}
+          className="rounded-3xl shadow-lg"
+        />
+        <Image
+          src="/images/3.webp" // Replace with your image path
           alt="AI Generated Headshot Example"
           width={300}
           height={300}
@@ -41,7 +56,7 @@ const Hero = ({ id }: { id: string }) => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
       >
-        Use Headshot-ai to save time and money. Get professional AI-generated
+        Use Headshot-AI to save time and money. Get professional AI-generated
         headshots tailored to your needs.
       </motion.p>
 
@@ -60,6 +75,24 @@ const Hero = ({ id }: { id: string }) => {
         <Button asChild variant="secondary">
           <Link href="/login">Log In</Link>
         </Button>
+      </motion.div>
+
+      {/* Scroll down indicator */}
+      <motion.div
+        className="absolute bottom-8"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          y: [0, 10, 0],
+        }}
+        transition={{
+          delay: 2,
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+      >
+        <ChevronDown className="h-8 w-8 text-white" />
       </motion.div>
     </section>
   );
