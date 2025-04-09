@@ -1,9 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label"; // Changed to match GenderStep
 import { TUserProfile } from "@/lib/validations";
-import { RadioCardGroup } from "../radio-card-group";
+import { RadioCardGroup } from "@/components/radio-card-group";
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card"; // Added Card components
 
 const attireOptions = [
   { value: "casual", label: "Casual", image: "/images/36.webp" },
@@ -36,56 +44,66 @@ export default function AttireStep({
   prevStep: () => void;
   nextStep: () => void;
 }) {
-  console.log(formData.attire);
   return (
-    <div>
-      {/* Attire */}
-      <div className="mb-4">
-        <Label className="mb-2 block" htmlFor="attire">
-          Attire
-        </Label>
-        <RadioCardGroup
-          name="attire"
-          currentValue={formData.attire}
-          options={attireOptions}
-          onChange={handleChange}
-        />
-      </div>
+    <Card className="w-fit mx-auto my-6">
+      <CardHeader>
+        <CardTitle className="text-xl font-semibold">Step 4 of 5</CardTitle>
+        <CardDescription className="text-gray-600">
+          Select your attire, background, and glasses preference
+        </CardDescription>
+      </CardHeader>
 
-      {/* Backgrounds */}
-      <div className="mb-4">
-        <Label className="mb-2 block" htmlFor="backgrounds">
-          Backgrounds
-        </Label>
-        <RadioCardGroup
-          name="backgrounds"
-          currentValue={formData.backgrounds}
-          options={backgroundOptions}
-          onChange={handleChange}
-        />
-      </div>
+      <CardContent>
+        <div className="space-y-6">
+          <div>
+            <Label className="mb-2 block text-sm font-medium" htmlFor="attire">
+              Attire
+            </Label>
+            <RadioCardGroup
+              name="attire"
+              currentValue={formData.attire}
+              options={attireOptions}
+              onChange={handleChange}
+            />
+          </div>
 
-      {/* Glasses */}
-      <div className="mb-4">
-        <Label className="mb-2 block" htmlFor="glasses">
-          Glasses
-        </Label>
-        <RadioCardGroup
-          name="glasses"
-          currentValue={String(formData.glasses)}
-          options={glassesOptions}
-          onChange={handleChange}
-        />
-      </div>
+          <div>
+            <Label
+              className="mb-2 block text-sm font-medium"
+              htmlFor="backgrounds"
+            >
+              Backgrounds
+            </Label>
+            <RadioCardGroup
+              name="backgrounds"
+              currentValue={formData.backgrounds}
+              options={backgroundOptions}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="flex justify-between">
-        <Button type="button" onClick={prevStep}>
-          Previous
-        </Button>
-        <Button type="submit" onClick={nextStep}>
-          Next
-        </Button>
-      </div>
-    </div>
+          <div>
+            <Label className="mb-2 block text-sm font-medium" htmlFor="glasses">
+              Glasses
+            </Label>
+            <RadioCardGroup
+              name="glasses"
+              currentValue={String(formData.glasses)}
+              options={glassesOptions}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="flex justify-between">
+            <Button type="button" onClick={prevStep}>
+              Previous
+            </Button>
+            <Button type="submit" onClick={nextStep}>
+              Next
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

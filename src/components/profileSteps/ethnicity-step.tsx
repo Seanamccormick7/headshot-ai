@@ -1,9 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label"; // Changed to match GenderStep
 import { TUserProfile } from "@/lib/validations";
-import { RadioCardGroup } from "@/components/radio-card-group"; // Adjust path
+import { RadioCardGroup } from "@/components/radio-card-group";
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card"; // Added Card components
 
 const ethnicityOptions = [
   { value: "asian", label: "Asian", image: "/images/13.webp" },
@@ -34,39 +42,56 @@ export default function EthnicityStep({
   nextStep: () => void;
 }) {
   return (
-    <div>
-      <div className="mb-4">
-        <Label className="mb-2 block" htmlFor="ethnicity">
-          Ethnicity
-        </Label>
-        <RadioCardGroup
-          name="ethnicity"
-          currentValue={formData.ethnicity ? formData.ethnicity : ""}
-          options={ethnicityOptions}
-          onChange={handleChange}
-        />
-      </div>
+    <Card className="w-fit mx-auto my-6">
+      <CardHeader>
+        <CardTitle className="text-xl font-semibold">Step 3 of 5</CardTitle>
+        <CardDescription className="text-gray-600">
+          Select your ethnicity and body type
+        </CardDescription>
+      </CardHeader>
 
-      <div className="mb-4">
-        <Label className="mb-2 block" htmlFor="bodyType">
-          Body Type
-        </Label>
-        <RadioCardGroup
-          name="bodyType"
-          currentValue={formData.bodyType ? formData.bodyType : ""}
-          options={bodyTypeOptions}
-          onChange={handleChange}
-        />
-      </div>
+      <CardContent>
+        <div className="space-y-6">
+          <div>
+            <Label
+              className="mb-2 block text-sm font-medium"
+              htmlFor="ethnicity"
+            >
+              Ethnicity
+            </Label>
+            <RadioCardGroup
+              name="ethnicity"
+              currentValue={formData.ethnicity ? formData.ethnicity : ""}
+              options={ethnicityOptions}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="flex justify-between">
-        <Button type="button" onClick={prevStep}>
-          Previous
-        </Button>
-        <Button type="submit" onClick={nextStep}>
-          Next
-        </Button>
-      </div>
-    </div>
+          <div>
+            <Label
+              className="mb-2 block text-sm font-medium"
+              htmlFor="bodyType"
+            >
+              Body Type
+            </Label>
+            <RadioCardGroup
+              name="bodyType"
+              currentValue={formData.bodyType ? formData.bodyType : ""}
+              options={bodyTypeOptions}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="flex justify-between">
+            <Button type="button" onClick={prevStep}>
+              Previous
+            </Button>
+            <Button type="submit" onClick={nextStep}>
+              Next
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

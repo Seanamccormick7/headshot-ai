@@ -29,7 +29,7 @@ export function RadioCardGroup({
           <label
             key={option.value}
             className={`cursor-pointer border p-4 rounded-md ${
-              isChecked ? "border-blue-500" : "border-gray-300"
+              isChecked ? "border-violet-500" : "border-gray-300"
             }`}
           >
             {/* Hidden radio input */}
@@ -39,7 +39,7 @@ export function RadioCardGroup({
               value={option.value}
               checked={isChecked}
               onChange={onChange}
-              className="sr-only"
+              className="sr-only "
             />
 
             {/* Visible card content */}
@@ -50,7 +50,7 @@ export function RadioCardGroup({
               height={200}
               className="w-40 h-40 object-cover"
             />
-            <p className="text-center mt-2">{option.label}</p>
+            <p className="text-center mt-2 font-medium">{option.label}</p>
           </label>
         );
       })}

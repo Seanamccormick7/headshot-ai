@@ -34,7 +34,7 @@ export default function GenderStep({
   nextStep: () => void;
 }) {
   return (
-    <Card className="w-full max-w-xl mx-auto">
+    <Card className="w-fit mx-auto my-6">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">Step 1 of 5</CardTitle>
         <CardDescription className="text-gray-600">
@@ -71,9 +71,11 @@ export default function GenderStep({
           </div>
 
           {/* Next button */}
-          <Button type="submit" onClick={nextStep}>
-            Next
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" onClick={nextStep}>
+              Next
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

@@ -147,7 +147,6 @@ export default function Profile() {
 
   return (
     <main className="flex flex-col items-center justify-center space-y-8">
-      <H1>Profile Page</H1>
       {stepError && (
         <div className="bg-red-100 border border-red-400 text-red-700 p-2">
           {stepError}

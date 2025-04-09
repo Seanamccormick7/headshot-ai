@@ -46,6 +46,9 @@ export default function Page({
         <H1>Success! You now have access to your dashboard.</H1>
       )}
       {searchParams.cancelled && <H1>Headshot AI access requires payment</H1>}
+      {!searchParams.success && !searchParams.cancelled && (
+        <H1>Last Step! Headshot AI access requires payment</H1>
+      )}
 
       {searchParams.success && (
         <Button
