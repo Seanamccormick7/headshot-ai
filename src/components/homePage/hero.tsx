@@ -47,7 +47,7 @@ const Hero = ({ id }: { id: string }) => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        Upgrade Your <span className="text-zinc-900">Headshots</span> with Ease
+        Upgrade Your <span className="text-zinc-900">Headshots</span> in Seconds
       </motion.h1>
 
       <motion.p
