@@ -21,7 +21,7 @@ export default function AppHeader({ userEmail }: { userEmail: string }) {
     <header className="flex justify-between items-center border-b border-white/10 py-2 px-4 bg-white shadow-sm">
       <Logo />
 
-      <Link href="/app/account" className="ml-4">
+      <Link href="/account" className="ml-4">
         <Avatar>
           <AvatarImage alt="@username" />
           <AvatarFallback>{firstLetter}</AvatarFallback>

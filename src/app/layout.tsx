@@ -31,10 +31,10 @@ export default function RootLayout({
       <body
         className={`${inter.className} flex flex-col text-sm min-h-screen text-zinc-900 bg-white`}
       >
-        <Navbar />
         <SessionProvider>
+          <Navbar />
           <Suspense fallback={<p>Loading profile...</p>}>
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pt-16">{children}</main>
           </Suspense>
         </SessionProvider>
         <HomeFooter />

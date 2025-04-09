@@ -22,7 +22,6 @@ export default async function Layout({
 
   return (
     <div className={`${inter.className} flex flex-col min-h-screen`}>
-      <AppHeader userEmail={session.user.email || "@"} />
       <div className="flex flex-1">
         <SideMenu />
         <main className="w-full px-4 pt-8 bg-gray-50">{children}</main>

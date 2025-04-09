@@ -3,9 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Grab the session to determine if user is logged in
+  const { data: session } = useSession();
 
   return (
     <nav className="fixed w-full z-20 top-0 bg-gradient-to-r from-violet-700 to-violet-400 shadow">
@@ -29,10 +34,23 @@ const Navbar = () => {
           <Link href="#pricing" className="text-white hover:underline">
             Pricing
           </Link>
-          {/* Primary call-to-action leading to /signup */}
-          <Button asChild variant="default">
-            <Link href="/signup">Get Started</Link>
-          </Button>
+
+          {/* If user is logged in, show avatar; otherwise show "Get Started" */}
+          {session?.user?.hasAccess ? (
+            <Link href="/account" aria-label="Account">
+              <Image
+                src={"/default-profile.png"}
+                width={40}
+                height={40}
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            </Link>
+          ) : (
+            <Button asChild variant="default">
+              <Link href="/signup">Get Started</Link>
+            </Button>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -77,7 +95,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-blue-700">
+        <div className="md:hidden bg-violet-700">
           <Link href="#hero" className="block px-4 py-2 text-white">
             Home
           </Link>
@@ -90,11 +108,27 @@ const Navbar = () => {
           <Link href="#pricing" className="block px-4 py-2 text-white">
             Pricing
           </Link>
-          <Link href="/signup" className="block px-4 py-2">
-            <Button asChild variant="default" className="w-full">
-              Get Started
-            </Button>
-          </Link>
+
+          {/* Conditionally render avatar or "Get Started" on Mobile */}
+          {session?.user?.hasAccess ? (
+            <Link
+              href="/account"
+              className="block px-4 py-2 text-white flex items-center gap-2"
+            >
+              <Image
+                src={"/images/default-user.png"}
+                alt="Profile"
+                className="w-8 h-8 rounded-full object-cover"
+              />
+              <span>My Account</span>
+            </Link>
+          ) : (
+            <Link href="/signup" className="block px-4 py-2">
+              <Button asChild variant="default" className="w-full">
+                Get Started
+              </Button>
+            </Link>
+          )}
         </div>
       )}
     </nav>

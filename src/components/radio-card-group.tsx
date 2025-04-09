@@ -46,9 +46,9 @@ export function RadioCardGroup({
             <Image
               src={option.image}
               alt={option.label}
-              width={128}
-              height={128}
-              className="w-32 h-32 object-cover"
+              width={200}
+              height={200}
+              className="w-40 h-40 object-cover"
             />
             <p className="text-center mt-2">{option.label}</p>
           </label>

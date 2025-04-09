@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"; // if you have a custom label
 import { TUserProfile } from "@/lib/validations";
 import { RadioCardGroup } from "@/components/radio-card-group";
-import Image from "next/image";
 
 import {
   Card,
